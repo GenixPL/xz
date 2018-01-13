@@ -4,6 +4,7 @@ package pw.xz.xdd.xz;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.indoorway.android.common.sdk.IndoorwaySdk;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
@@ -14,6 +15,7 @@ import com.indoorway.android.common.sdk.model.IndoorwayPosition;
 import com.indoorway.android.fragments.sdk.map.IndoorwayMapFragment;
 import com.indoorway.android.fragments.sdk.map.MapFragment;
 import com.indoorway.android.location.sdk.IndoorwayLocationSdk;
+import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkError;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
@@ -28,8 +30,6 @@ public class MainActivity extends AppCompatActivity{
     public IndoorwayMap currentMap;
     public MarkersLayer myLayer;
     private IndoorwayPosition currentPosition;
-    private IndoorwayLocationSdkState currentState;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,58 +53,74 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        locationStuff();
+        displayUser();
 
-    }
+        Action1<IndoorwayLocationSdkError> listener = new Action1<IndoorwayLocationSdkError>() {
+            @Override
+            public void onAction(IndoorwayLocationSdkError error) {
+                if (error instanceof IndoorwayLocationSdkError.BleNotSupported) {
+                    // Bluetooth Low Energy is not supported, positioning service will be stopped, it can't work
+                    toastMessage("Energy");
+                } else if (error instanceof IndoorwayLocationSdkError.MissingPermission) {
+                    // Some permissions are missing, ask for it.permission
+                    toastMessage("permissions");
+                } else if (error instanceof IndoorwayLocationSdkError.BluetoothDisabled) {
+                    // Bluetooth is disabled, user have to turn it on
+                    toastMessage("disabled blue");
+                } else if (error instanceof IndoorwayLocationSdkError.LocationDisabled) {
+                    // Location is disabled, user have to turn it on
+                    toastMessage("disabled location");
+                } else if (error instanceof IndoorwayLocationSdkError.UnableToFetchData) {
+                    // Network-related error, service will be restarted on network connection established
+                    toastMessage("net");
+                } else if (error instanceof IndoorwayLocationSdkError.NoRadioMaps) {
+                    // Measurements have to be taken in order to use location
+                    toastMessage("measure");
+                }
+            }
+        };
 
-    private void locationStuff(){
+        IndoorwayLocationSdk.instance()
+                .state()
+                .onError()
+                .register(listener);
 
-        Action1<IndoorwayLocationSdkState> listener = new Action1<IndoorwayLocationSdkState>() {
+        Action1<IndoorwayLocationSdkState> listenerCurr = new Action1<IndoorwayLocationSdkState>() {
             @Override
             public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
-                currentState = IndoorwayLocationSdk.instance()
-                        .state()
-                        .current();
+                // handle state changes
+                toastMessage(indoorwayLocationSdkState.toString());
             }
         };
 
         IndoorwayLocationSdk.instance()
                 .state()
                 .onChange()
-                .register(listener);
+                .register(listenerCurr);
 
-        // REMEMBER TO UNREGISTER LISTENER
-        IndoorwayLocationSdk.instance()
-                .state()
-                .onChange()
-                .unregister(listener);
+    }
 
-
-        Action1<IndoorwayPosition> listener2 = new Action1<IndoorwayPosition>() {
+    private void displayUser(){
+        Action1<IndoorwayPosition> listener = new Action1<IndoorwayPosition>() {
             @Override
             public void onAction(IndoorwayPosition position) {
                 // store last position as a field
                 currentPosition = position;
 
                 // react for position changes...
+                toastMessage("something");
 
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
-                indoorwayMapView.getPosition().setPosition(currentPosition, true);
+                indoorwayMapView.getPosition().setPosition(position, true);
             }
         };
 
         IndoorwayLocationSdk.instance()
                 .position()
                 .onChange()
-                .register(listener2);
-
-        // remember to unregister listener!
-        IndoorwayLocationSdk.instance()
-                .position()
-                .onChange()
-                .unregister(listener2);
+                .register(listener);
     }
 
     private void initializeMap(){
@@ -116,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
                 //toastMessage(coordinates.toString());
                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                 toastMessage(result.get(0).getName() + "");
+
             }
         });
     }
