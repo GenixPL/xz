@@ -1,18 +1,18 @@
 package pw.xz.xdd.xz;
 
-import android.content.Intent;
+
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.indoorway.android.common.sdk.IndoorwaySdk;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
 import com.indoorway.android.common.sdk.model.IndoorwayObjectParameters;
+import com.indoorway.android.location.sdk.IndoorwayLocationSdk;
+import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
-import com.indoorway.android.map.sdk.view.MapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
 import java.util.List;
@@ -46,8 +46,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        locationStuff();
 
+    }
 
+    private void locationStuff(){
+        Action1<IndoorwayLocationSdkState> listener = new Action1<IndoorwayLocationSdkState>() {
+            @Override
+            public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
+                // handle state changes
+            }
+        };
+
+        IndoorwayLocationSdk.instance()
+                .state()
+                .onChange()
+                .register(listener);
+
+        // REMEMBER TO UNREGISTER LISTENER
+        IndoorwayLocationSdk.instance()
+                .state()
+                .onChange()
+                .unregister(listener);
     }
 
     private void initializeMap(){
@@ -63,14 +83,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void toastMessage(String message){
-        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
         Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         snackbar.show();
-
-
 
     }
 }
