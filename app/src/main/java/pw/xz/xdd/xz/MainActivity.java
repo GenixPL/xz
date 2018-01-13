@@ -44,51 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-        private Thread.UncaughtExceptionHandler defaultUEH;
-
-        private Activity app = null;
-
-        public TopExceptionHandler(Activity app) {
-            this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
-            this.app = app;
-        }
-
-        public void uncaughtException(Thread t, Throwable e) {
-            StackTraceElement[] arr = e.getStackTrace();
-            String report = e.toString() + "\n\n";
-            report += "--------- Stack trace ---------\n\n";
-            for (int i = 0; i < arr.length; i++) {
-                report += "    " + arr[i].toString() + "\n";
-            }
-            report += "-------------------------------\n\n";
-
-// If the exception was thrown in a background thread inside
-// AsyncTask, then the actual exception can be found with getCause
-            report += "--------- Cause ---------\n\n";
-            Throwable cause = e.getCause();
-            if (cause != null) {
-                report += cause.toString() + "\n\n";
-                arr = cause.getStackTrace();
-                for (int i = 0; i < arr.length; i++) {
-                    report += "    " + arr[i].toString() + "\n";
-                }
-            }
-            report += "-------------------------------\n\n";
-
-            try {
-                FileOutputStream trace = app.openFileOutput(
-                        "stack.trace", Context.MODE_PRIVATE);
-                trace.write(report.getBytes());
-                trace.close();
-            } catch (IOException ioe) {
-// ...
-            }
-
-            defaultUEH.uncaughtException(t, e);
-        }
-    }
 
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
@@ -98,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
-
+    private Coordinates actualInoorwayPosition;
     TextView tx;
     CardView cardView;
     String tex;
@@ -116,44 +72,9 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
-        String line;
-        String trace = "";
-        try {
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(this
-                            .openFileInput("stack.trace")));
-            while ((line = reader.readLine()) != null) {
-                trace += line + "\n";
-            }
-        } catch (FileNotFoundException fnfe) {
-// ...
-        } catch (IOException ioe) {
-// ...
-        }
-
-        Intent sendIntent = new Intent(Intent.ACTION_SEND);
-        String subject = "Error report";
-        String body =
-                "Mail this to appdeveloper@gmail.com: " +
-                        "\n" +
-                        trace +
-                        "\n";
-
-        sendIntent.putExtra(Intent.EXTRA_EMAIL,
-                new String[]{"emilm7843@gmail.com"});
-        sendIntent.putExtra(Intent.EXTRA_TEXT, body);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        sendIntent.setType("message/rfc822");
-
-        this.startActivity(
-                Intent.createChooser(sendIntent, "Title:"));
-
-        this.deleteFile("stack.trace");
 
         setContentView(R.layout.activity_main);
-        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
         SQLiteDb sql = new SQLiteDb(getApplicationContext());
         sql.sqliteDbUpdateOnce(getApplicationContext());
         database = new SQLiteDbHelper(getApplicationContext());
@@ -218,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(IndoorwayPosition position) {
                 // store last position as a field
                 currentPosition = position;
-
+                actualInoorwayPosition = position.getCoordinates();
                 // react for position changes...
 
                 // If you are using map view, you can pass position.

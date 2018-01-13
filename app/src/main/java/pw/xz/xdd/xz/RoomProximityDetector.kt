@@ -55,6 +55,7 @@ class RoomProximityDetector(
             }
         }
     }
+
     fun getNearestRoom(position:Coordinates):Pair<Room?, Double> {
         var minDistance: Double = 999999.0;
         var nearestRoom: Room? = null;
