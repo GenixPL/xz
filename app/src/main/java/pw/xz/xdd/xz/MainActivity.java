@@ -41,7 +41,9 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
+
     TextView tx;
     CardView cardView;
     String tex;
@@ -218,30 +221,8 @@ public class MainActivity extends AppCompatActivity {
                 int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                 int currentMinutes = rightNow.get(Calendar.MINUTE);
                 int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                String day = "";
+                String day = JavaDisabilitiesFixerKt.getDays().get(currentDay);
 
-                switch (currentDay) {
-                    case Calendar.MONDAY:
-                        day = "Monday";
-
-                    case Calendar.TUESDAY:
-                        day = "Tuesday";
-
-                    case Calendar.WEDNESDAY:
-                        day = "Wednesday";
-
-                    case Calendar.THURSDAY:
-                        day = "Thursday";
-
-                    case Calendar.FRIDAY:
-                        day = "Friday";
-
-                    case Calendar.SATURDAY:
-                        day = "Saturday";
-
-                    case Calendar.SUNDAY:
-                        day = "Sunday";
-                }
 
                 String roomId = room.getId();
 
@@ -286,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
+                //indoorwayMapView.getSelection().selectObject();
                 try {
                     List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
