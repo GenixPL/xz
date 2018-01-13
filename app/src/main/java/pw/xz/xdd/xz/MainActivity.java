@@ -30,11 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        // init application context on each Application start
-        IndoorwaySdk.initContext(this);
-
-        // it's up to you when to initialize IndoorwaySdk, once initialized it will work forever!
-        IndoorwaySdk.configure("6513a6eb-133a-43f6-a206-6afe3e07fe96");
 
         indoorwayMapView = findViewById(R.id.mapView);
 
