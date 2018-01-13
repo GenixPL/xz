@@ -9,13 +9,20 @@ import com.indoorway.android.common.sdk.IndoorwaySdk;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
+import com.indoorway.android.common.sdk.model.IndoorwayObjectParameters;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.MapView;
+import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public IndoorwayMapView indoorwayMapView;
-    public IndoorwayMap indoorwayMap;
+    public IndoorwayMap currentMap;
+    public MarkersLayer myLayer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
         indoorwayMapView = findViewById(R.id.mapView);
 
+        initializeMap();
+
         indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
             @Override
             public void onAction(IndoorwayMap indoorwayMap) {
-                indoorwayMap = indoorwayMap;
-                initializeMap();
+                currentMap = indoorwayMap;
+
                 RoomProximityDetector detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
 
+                myLayer = indoorwayMapView.getMarker().addLayer(0);
             }
         });
 
@@ -50,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
         indoorwayMapView.getTouch().setOnClickListener(new Action1<Coordinates>() {
             @Override
             public void onAction(Coordinates coordinates) {
-                toastMessage(coordinates.toString());
+                //toastMessage(coordinates.toString());
+                List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                toastMessage(result.get(0).getId());
             }
         });
     }
