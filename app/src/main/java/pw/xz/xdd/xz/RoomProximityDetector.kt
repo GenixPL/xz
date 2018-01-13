@@ -8,6 +8,8 @@ import com.indoorway.android.common.sdk.model.proximity.IndoorwayProximityEvent
 import com.indoorway.android.common.sdk.model.proximity.IndoorwayProximityEventShape
 import com.indoorway.android.location.sdk.IndoorwayLocationSdk
 import com.indoorway.android.map.sdk.view.IndoorwayMapView
+import java.sql.Time
+import java.util.*
 
 
 /**
@@ -37,16 +39,20 @@ class RoomProximityDetector(
         for (mapObject in map.objects ){
             var isAuditory = false
             var isRoom = true
-
+            var shouldAdd=false
             //tutaj sa dirty hacki bo pokoje nie maja tagow??
             if (mapObject.name!!.toLowerCase().contains("room")){
-
+                shouldAdd = true
             }
             else if (mapObject.name!!.toLowerCase().isNumber()){
                 isAuditory=true
+                shouldAdd=true
             }
-            var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ",""), mapObject.id, mapObject.centerPoint, isAuditory);
-            roomsList.add(thisRoom)
+
+            if (shouldAdd) {
+                var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ", ""), mapObject.id, mapObject.centerPoint, isAuditory);
+                roomsList.add(thisRoom)
+            }
         }
     }
     fun getNearestRoom(position:Coordinates):Pair<Room?, Double> {
@@ -61,29 +67,11 @@ class RoomProximityDetector(
         return Pair(nearestRoom,minDistance)
     }
 
-    fun makeTriggersFromRooms(){
-        //Nie znam inputu danych z sqla
+    fun getLectureCurrentlyTakingPlace(room:Room){
+        val today = java.util.Date()
+        val currentTime = java.sql.Time(today.time)
 
 
-        //map
-
-
-    }
-    public fun registerTrigger(){
-        //redudant?
-        IndoorwayLocationSdk.instance().customProximityEvents()
-                .add(IndoorwayProximityEvent(
-                        "proximity-event-id", // identifier
-                        IndoorwayProximityEvent.Trigger.ENTER, // trigger on enter or on exit?
-                        IndoorwayProximityEventShape.Circle(
-                                Coordinates(51.0, 20.0),
-                                3.0
-                        ),
-                        "building-uuid", // building identifier
-                        "map-uuid", // map identifier
-                        0L, // (optional) timeout to show notification, will be passed as parapeter to listener
-                        IndoorwayNotificationInfo("title", "description") // (optional) data to show in notification
-                ))
     }
     public fun onEnterZone(event: IndoorwayProximityEvent){
 
