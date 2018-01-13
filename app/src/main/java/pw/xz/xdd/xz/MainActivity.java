@@ -1,6 +1,9 @@
 package pw.xz.xdd.xz;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,13 +32,65 @@ import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
+    public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
 
+        private Thread.UncaughtExceptionHandler defaultUEH;
+
+        private Activity app = null;
+
+        public TopExceptionHandler(Activity app) {
+            this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+            this.app = app;
+        }
+
+        public void uncaughtException(Thread t, Throwable e)
+        {
+            StackTraceElement[] arr = e.getStackTrace();
+            String report = e.toString()+"\n\n";
+            report += "--------- Stack trace ---------\n\n";
+            for (int i=0; i<arr.length; i++)
+            {
+                report += "    "+arr[i].toString()+"\n";
+            }
+            report += "-------------------------------\n\n";
+
+// If the exception was thrown in a background thread inside
+// AsyncTask, then the actual exception can be found with getCause
+            report += "--------- Cause ---------\n\n";
+            Throwable cause = e.getCause();
+            if(cause != null) {
+                report += cause.toString() + "\n\n";
+                arr = cause.getStackTrace();
+                for (int i=0; i<arr.length; i++)
+                {
+                    report += "    "+arr[i].toString()+"\n";
+                }
+            }
+            report += "-------------------------------\n\n";
+
+            try {
+                FileOutputStream trace = app.openFileOutput(
+                        "stack.trace", Context.MODE_PRIVATE);
+                trace.write(report.getBytes());
+                trace.close();
+            } catch(IOException ioe) {
+// ...
+            }
+
+            defaultUEH.uncaughtException(t, e);
+        }
+    }
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
     public SQLiteDbHelper database;
@@ -49,6 +104,42 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
+        String line;
+        String trace = "";
+        try {
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(this
+                            .openFileInput("stack.trace")));
+            while ((line = reader.readLine()) != null) {
+                trace += line + "\n";
+            }
+        } catch (FileNotFoundException fnfe) {
+// ...
+        } catch (IOException ioe) {
+// ...
+        }
+
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        String subject = "Error report";
+        String body =
+                "Mail this to appdeveloper@gmail.com: " +
+                        "\n" +
+                        trace +
+                        "\n";
+
+        sendIntent.putExtra(Intent.EXTRA_EMAIL,
+                new String[]{"emilm7843@gmail.com"});
+        sendIntent.putExtra(Intent.EXTRA_TEXT, body);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        sendIntent.setType("message/rfc822");
+
+        this.startActivity(
+                Intent.createChooser(sendIntent, "Title:"));
+
+        this.deleteFile("stack.trace");
 
         setContentView(R.layout.activity_main);
         Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
