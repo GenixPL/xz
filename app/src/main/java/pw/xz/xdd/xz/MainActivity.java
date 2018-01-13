@@ -29,12 +29,16 @@ import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
+    public SQLiteDbHelper database;
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
@@ -114,6 +118,9 @@ public class MainActivity extends AppCompatActivity{
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
+                Room room = roomData.component1();
+
+                //database.getByRoomAndTime(room.getId(),currentTime.getHours()  );
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(position, true);
 
