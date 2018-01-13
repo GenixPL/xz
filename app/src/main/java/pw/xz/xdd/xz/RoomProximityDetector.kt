@@ -10,20 +10,16 @@ import com.indoorway.android.map.sdk.view.MapView
 import com.indoorway.android.common.sdk.model.proximity.IndoorwayProximityEvent
 
 
-
-
-
 /**
  * Created by emile on 13-Jan-18.
  */
-data class Room(
-        var name:String,
-        var id:Int
-)
+
+
 class RoomProximityDetector(
         var map:IndoorwayMap,
         var mapViewObject:IndoorwayMapView
 ){
+    public var roomsList:MutableList<Room> = mutableListOf()
 
     init {
         val listener = object : Action1<IndoorwayProximityEvent> {
@@ -36,12 +32,31 @@ class RoomProximityDetector(
        // IndoorwayLocationSdk.instance().dashboardProximityEvents().unregister(listener);
 
     }
+    fun getAllRooms(){
+        roomsList.clear()
+        for (mapObject in map.objects ){
+            var isAuditory = false
+            var isRoom = true
+            if (mapObject.name!!.toLowerCase().contains("room")){
+
+            }
+            else if (mapObject.name!!.toLowerCase().isNumber()){
+                isAuditory=true
+            }
+            var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ",""), mapObject.id, mapObject.centerPoint, isAuditory);
+            roomsList.add(thisRoom)
+        }
+    }
+    fun getNearestRoom(){
+
+    }
     fun makeTriggersFromRooms(){
         //Nie znam inputu danych z sqla
-        var roomsPlaceholder:MutableList<Room> = mutableListOf(Room("aaa",1));
-        for (room in roomsPlaceholder){
 
-        }
+
+        //map
+
+
     }
     public fun registerTrigger(){
 
