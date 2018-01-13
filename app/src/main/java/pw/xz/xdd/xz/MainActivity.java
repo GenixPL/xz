@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -241,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 // for eg. after going to different building level.
                 boolean isChangingFloor= false;
                 String roomid="";
-                Room room ;
+                Room room;
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 try {
 
@@ -268,12 +269,14 @@ public class MainActivity extends AppCompatActivity {
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                     List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
-                            20,20, "Saturday");
+                            20,20, "Saturday", getApplicationContext());
 
                     tx = findViewById(R.id.tx);
                     //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-                    //tx.setText(lectures.get(0).getName());
-                    tx.setText("tekst");
+                    Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
+                    if (lectures.size() != 0)
+                        tx.setText(lectures.get(0).getName());
+                    //tx.setText("tekst");
                     cardView = findViewById(R.id.card_view);
                     tx.setGravity(Gravity.CENTER);
 

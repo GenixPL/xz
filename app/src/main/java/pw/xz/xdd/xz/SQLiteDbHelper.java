@@ -1,11 +1,14 @@
 package pw.xz.xdd.xz;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +58,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
+        Log.e("myDebug","SQL database created");
+
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -84,10 +89,14 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         values.put(Entry.DAY, day);
         values.put(Entry.ROOM_ID, room_id);
         values.put(Entry.DESCRIPTION, description);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert(Entry.TABLENAME, null, values);
+
     }
 
     public List<Lecture> getByRoomAndTime(String room_id,
-                                          int start_time_hh, int start_time_mm, String day)
+                                          int start_time_hh, int start_time_mm, String day, Context context)
     {
         SQLiteDatabase db = getReadableDatabase();
         // Define a projection that specifies which columns from the database
@@ -107,6 +116,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         // Filter results WHERE "title" = 'My Title'
         String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " >= ? AND "
                 + Entry.START_TIME_MM + " != ? AND " + Entry.DAY + " = ?";
+        //String selection = Entry.ROOM_ID + " = ?";
 
         String[] selectionArgs = {
                 room_id,
@@ -129,7 +139,10 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
                 sortOrder//null                                 // The sort order
         );
 
-        List<Lecture> wyniki = new ArrayList<>();
+        Log.e("myDebug", "col: " + Integer.toString(cursor.getColumnCount()));
+        Log.e("myDebug", "col: " + Integer.toString(cursor.getCount()));
+
+        List<Lecture> results = new ArrayList<>();
 
         while(cursor.moveToNext()) {
             String name = cursor.getString(
@@ -152,12 +165,20 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             //        cursor.getColumnIndexOrThrow(Entry.ROOM_ID));
             String description = cursor.getString(
                     cursor.getColumnIndexOrThrow(Entry.DESCRIPTION));
-            wyniki.add(new Lecture(name, start_time_hh, start_time_mm, end_time_hh,
+            results.add(new Lecture(name, start_time_hh, start_time_mm, end_time_hh,
                     end_time_mm, day, room_id, description));
-        }
 
+            Log.e("myDebug","got query results");
+            //DEBUG
+            //Intent intent = new Intent("dupa");
+            //intent.putExtra("data","got query resaults");
+            //context.sendBroadcast(intent);
+
+        }
         cursor.close();
-        return wyniki;
+
+
+        return results;
     }
 
 }
