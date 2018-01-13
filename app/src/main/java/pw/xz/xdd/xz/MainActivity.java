@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initStatusListeners(){
-        Action1<IndoorwayLocationSdkError> listener = new Action1<IndoorwayLocationSdkError>() {
+        Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
             @Override
             public void onAction(IndoorwayLocationSdkError error) {
                 if (error instanceof IndoorwayLocationSdkError.BleNotSupported) {
@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity{
         IndoorwayLocationSdk.instance()
                 .state()
                 .onError()
-                .register(listener);
+                .register(sdkErrListener);
 
-        Action1<IndoorwayLocationSdkState> listenerCurr = new Action1<IndoorwayLocationSdkState>() {
+        Action1<IndoorwayLocationSdkState> sdkStateListener = new Action1<IndoorwayLocationSdkState>() {
             @Override
             public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
                 // handle state changes
@@ -90,11 +90,11 @@ public class MainActivity extends AppCompatActivity{
         IndoorwayLocationSdk.instance()
                 .state()
                 .onChange()
-                .register(listenerCurr);
+                .register(sdkStateListener);
     }
 
     private void displayUser(){
-        Action1<IndoorwayPosition> listener = new Action1<IndoorwayPosition>() {
+        Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
             public void onAction(IndoorwayPosition position) {
                 // store last position as a field
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
         IndoorwayLocationSdk.instance()
                 .position()
                 .onChange()
-                .register(listener);
+                .register(positionListener);
     }
 
     private void initializeMap(){
