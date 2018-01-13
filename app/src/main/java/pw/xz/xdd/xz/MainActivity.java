@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_main);
 
-
+        database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
         initializeMap();
