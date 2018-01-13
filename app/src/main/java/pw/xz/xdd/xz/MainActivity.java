@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
 
+    private String lastRoomId="";
+
     TextView tx;
     CardView cardView;
     String tex;
@@ -217,27 +219,26 @@ public class MainActivity extends AppCompatActivity {
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 Room room = roomData.component1();
                 String roomid = room.getId();
-
-                Calendar rightNow = Calendar.getInstance();
-                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-                int currentMinutes = rightNow.get(Calendar.MINUTE);
-                int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
-
-
-                //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
-                indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
-                indoorwayMapView.getPosition().setPosition(currentPosition, true);
-
-                tx = findViewById(R.id.tx);
-                //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-                //tx.setText(lectures.get(0).getName());
-                cardView = findViewById(R.id.card_view);
-                tx.setGravity(Gravity.CENTER);
+                if (!roomid.equals(lastRoomId)) {
+                    lastRoomId = roomid;
+                    Calendar rightNow = Calendar.getInstance();
+                    int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                    int currentMinutes = rightNow.get(Calendar.MINUTE);
+                    int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
+                    String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
 
 
+                    //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
+                    indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
+                    indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
-                if (roomid != room.getId()){
+                    tx = findViewById(R.id.tx);
+                    //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+                    //tx.setText(lectures.get(0).getName());
+                    cardView = findViewById(R.id.card_view);
+                    tx.setGravity(Gravity.CENTER);
+
+
                     tx.setVisibility(View.VISIBLE);
                     cardView.setVisibility(View.VISIBLE);
 
@@ -250,16 +251,18 @@ public class MainActivity extends AppCompatActivity {
                             cardView.setVisibility(View.INVISIBLE);
                         }
                     }, 3000);
+
+
                 }
 
             }
         };
-
         IndoorwayLocationSdk.instance()
                 .position()
                 .onChange()
                 .register(positionListener);
     }
+
 
     private void initializeMap() {
         indoorwayMapView.load("CScrSxCVhQg", "3-_M01M3r5w");
