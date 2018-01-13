@@ -16,6 +16,8 @@ import android.util.Pair;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
         String line;
@@ -280,13 +286,12 @@ public class MainActivity extends AppCompatActivity {
                     indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
-                    List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
-                            20,20, "Saturday");
+                    //List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",20,20, "Saturday");
 
                     tx = findViewById(R.id.tx);
-                    //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+                    tx.setText(roomid + "\n" + currentHour + ":" + currentMinutes + ", " + day);
                     //tx.setText(lectures.get(0).getName());
-                    tx.setText("tekst");
+                    //tx.setText("tekst");
                     cardView = findViewById(R.id.card_view);
                     tx.setGravity(Gravity.CENTER);
 
