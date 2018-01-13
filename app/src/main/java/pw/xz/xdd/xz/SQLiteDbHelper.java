@@ -22,10 +22,10 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "database.db";
+    public static final String DATABASE_NAME = "lectures_database.db";
 
     public static class Entry implements BaseColumns {
-        public static final String TABLENAME = "Table";
+        public static final String TABLENAME = "Lectures";
         public static final String NAME = "name";
         public static final String START_TIME_HH = "start_time_hh";
         public static final String START_TIME_MM = "start_time_mm";
