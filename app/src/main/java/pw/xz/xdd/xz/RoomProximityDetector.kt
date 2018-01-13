@@ -12,8 +12,9 @@ import com.indoorway.android.map.sdk.view.MapView
 class RoomProximityDetector(
         var mapViewObject:IndoorwayMapView
 ){
+    public lateinit var mapObject:IndoorwayMapView
     init {
-      
+
     }
     fun makeTriggersFromRooms(){
 
