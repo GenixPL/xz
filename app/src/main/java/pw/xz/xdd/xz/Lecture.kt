@@ -3,7 +3,7 @@ package pw.xz.xdd.xz
 /**
  * Created by emile on 13-Jan-18.
  */
-data class Lectures(
+data class Lecture(
         var name:String,
         var startHour:String,
         var roomId:String,
