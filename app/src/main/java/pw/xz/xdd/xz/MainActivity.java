@@ -256,9 +256,11 @@ public class MainActivity extends AppCompatActivity {
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
                     String day = "";
+                    JavaDisabilitiesFixer a = new JavaDisabilitiesFixer();
+                    day = a.getDays().get(Calendar.MONDAY);
 
-                    //JavaDisabilitiesFixerKt.getDays().get(Calendar.MONDAY); //null :///
-
+                   // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
+            /*
                     switch (currentDay) {
                         case Calendar.MONDAY:
                             day = "Monday";
@@ -282,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                             day = "Saturday";
                             break;
                     }
-
+*/
                     indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                     indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
