@@ -2,8 +2,6 @@ package pw.xz.xdd.xz;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,9 +14,6 @@ import java.util.List;
 
 public class SQLiteDb
 {
-    public SQLiteDb(Context context){
-    }
-
     public void sqliteDbUpdateOnce(Context context)
     {
         SQLiteDbHelper sql = new SQLiteDbHelper(context);
@@ -35,8 +30,6 @@ public class SQLiteDb
 
         List<String[]> list = readCsv(context);
 
-        //Log.e("myDebug", "list: " + Integer.toString(list.size()));
-
         for (int i=0; i<list.size(); i++)
         {
             name = list.get(i)[0];
@@ -47,7 +40,6 @@ public class SQLiteDb
             day = list.get(i)[5];
             room_id = list.get(i)[6];
             description = list.get(i)[7];
-            //Log.e("myDebug", "list2: " + name + start_time_hh + start_time_mm + room_id);
             sql.addToDb(name, start_time_hh, start_time_mm, end_time_hh,
                     end_time_mm, day, room_id, description);
         }
@@ -59,14 +51,9 @@ public class SQLiteDb
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(assetManager.open("dane.csv")));
-
             String line;
             while ((line = in.readLine()) != null) {
-                String[] rowData = line.split(";");
-                //String date = rowData[0];
-                //String value = rowData[1];
-
-                //Log.e("myDebug", "value: " + rowData[6]);
+                String[] rowData = line.split(",");
                 list.add(rowData);
             }
         } catch (IOException e) {
