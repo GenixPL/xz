@@ -42,7 +42,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private Thread.UncaughtExceptionHandler defaultUEH;
@@ -54,14 +54,12 @@ public class MainActivity extends AppCompatActivity{
             this.app = app;
         }
 
-        public void uncaughtException(Thread t, Throwable e)
-        {
+        public void uncaughtException(Thread t, Throwable e) {
             StackTraceElement[] arr = e.getStackTrace();
-            String report = e.toString()+"\n\n";
+            String report = e.toString() + "\n\n";
             report += "--------- Stack trace ---------\n\n";
-            for (int i=0; i<arr.length; i++)
-            {
-                report += "    "+arr[i].toString()+"\n";
+            for (int i = 0; i < arr.length; i++) {
+                report += "    " + arr[i].toString() + "\n";
             }
             report += "-------------------------------\n\n";
 
@@ -69,12 +67,11 @@ public class MainActivity extends AppCompatActivity{
 // AsyncTask, then the actual exception can be found with getCause
             report += "--------- Cause ---------\n\n";
             Throwable cause = e.getCause();
-            if(cause != null) {
+            if (cause != null) {
                 report += cause.toString() + "\n\n";
                 arr = cause.getStackTrace();
-                for (int i=0; i<arr.length; i++)
-                {
-                    report += "    "+arr[i].toString()+"\n";
+                for (int i = 0; i < arr.length; i++) {
+                    report += "    " + arr[i].toString() + "\n";
                 }
             }
             report += "-------------------------------\n\n";
@@ -84,13 +81,14 @@ public class MainActivity extends AppCompatActivity{
                         "stack.trace", Context.MODE_PRIVATE);
                 trace.write(report.getBytes());
                 trace.close();
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
 // ...
             }
 
             defaultUEH.uncaughtException(t, e);
         }
     }
+
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
     public SQLiteDbHelper database;
@@ -152,7 +150,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void initStatusListeners(){
+    private void initStatusListeners() {
         Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
             @Override
             public void onAction(IndoorwayLocationSdkError error) {
@@ -197,7 +195,7 @@ public class MainActivity extends AppCompatActivity{
                 .register(sdkStateListener);
     }
 
-    private void displayUser(){
+    private void displayUser() {
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
             public void onAction(IndoorwayPosition position) {
@@ -215,7 +213,6 @@ public class MainActivity extends AppCompatActivity{
                 //database.getByRoomAndTime(room.getId(),currentTime.getHours(),currentTime.getMinutes(),day.);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
-
 
 
                 tx = findViewById(R.id.tx);
@@ -244,18 +241,22 @@ public class MainActivity extends AppCompatActivity{
                 .register(positionListener);
     }
 
-    private void initializeMap(){
+    private void initializeMap() {
         indoorwayMapView.load("CScrSxCVhQg", "3-_M01M3r5w");
 
         indoorwayMapView.getTouch().setOnClickListener(new Action1<Coordinates>() {
             @Override
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
-                List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                try {
+                    List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
-                //tx.setText(result.get(0).getName() + "");
-                tex = result.get(0).getName()+"";
-                toastMessage(tex);
+                    //tx.setText(result.get(0).getName() + "");
+                    tex = result.get(0).getId() + "";
+                    toastMessage(tex);
+                } catch (Exception e) {
+                    toastMessage("error byl");
+                }
             }
         });
 
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity{
             public void onAction(IndoorwayMap indoorwayMap) {
                 currentMap = indoorwayMap;
 
-                detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
+                detector = new RoomProximityDetector(indoorwayMap, indoorwayMapView);
                 detector.getAllRooms();
 
                 myLayer = indoorwayMapView.getMarker().addLayer(0);
@@ -273,11 +274,11 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    public void toastMessage(String message){
+    public void toastMessage(String message) {
         //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         //snackbar.show();
 
-        Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
 
     }
