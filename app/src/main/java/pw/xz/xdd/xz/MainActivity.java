@@ -2,8 +2,10 @@ package pw.xz.xdd.xz;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
-
+    private double MAX_DETECTION_RANGE = 99999;
     private String lastRoomId="";
 
     TextView tx;
@@ -162,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         displayUser();
         initStatusListeners();
         initNavigationDrawer();
+
+        IntentFilter filter = new IntentFilter("dupa");
+        BroadcastToast bc = new BroadcastToast();
+        registerReceiver(bc,filter);
 
     }
 
@@ -243,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
                     String day = "";
+
+                    //JavaDisabilitiesFixerKt.getDays().get(Calendar.MONDAY); //null :///
 
                     switch (currentDay) {
                         case Calendar.MONDAY:
@@ -375,6 +383,12 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
         toast.show();
 
+    }
+    class BroadcastToast extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intet){
+            toastMessage(intet.getStringExtra("data"));
+        }
     }
 
 }

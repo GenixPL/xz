@@ -7,7 +7,6 @@ import java.util.*
  */
 // no ale ze w javie nie mozna robic dictionary to bym nie pomyslal xdddd
 
-//dla javowcw co musza wszystko miec w funkcjach jednolinikowych :/
 var days = mapOf<Int, String>(
         Calendar.MONDAY to "Monday",
         Calendar.TUESDAY to "Tuesday",
