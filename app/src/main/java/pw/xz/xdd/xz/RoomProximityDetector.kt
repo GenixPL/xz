@@ -1,6 +1,8 @@
 package pw.xz.xdd.xz
 
+import com.indoorway.android.common.sdk.model.Coordinates
 import com.indoorway.android.common.sdk.model.IndoorwayMap
+import com.indoorway.android.map.sdk.view.IndoorwayMapView
 import com.indoorway.android.map.sdk.view.MapView
 
 
@@ -8,10 +10,13 @@ import com.indoorway.android.map.sdk.view.MapView
  * Created by emile on 13-Jan-18.
  */
 class RoomProximityDetector(
-        var mapInstance:IndoorwayMap
+        var mapViewObject:IndoorwayMapView
 ){
     init {
-        mapInstance.objects
+      
+    }
+    fun makeTriggersFromRooms(){
+
     }
     public fun registerTrigger(){
 

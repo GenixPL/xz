@@ -17,12 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
-            @Override
-            public void onAction(IndoorwayMap indoorwayMap) {
-               RoomProximityDetector detector = new RoomProximityDetector(indoorwayMap);
-            }
-        });
         setContentView(R.layout.activity_main);
 
         // init application context on each Application start
@@ -33,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         indoorwayMapView = findViewById(R.id.mapView);
 
-        indoorwayMapView
-                // perform map loading using building UUID and map UUID
-                .load("CScrSxCVhQg", "3-_M01M3r5w");
+        indoorwayMapView.load("CScrSxCVhQg", "3-_M01M3r5w");
+        RoomProximityDetector detector = new RoomProximityDetector(indoorwayMapView);
 
     }
 
