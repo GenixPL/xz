@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
-    private double MAX_DETECTION_RANGE = 8.5;
+    private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
 
     TextView tx;
@@ -252,37 +252,16 @@ public class MainActivity extends AppCompatActivity {
                     //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
                     isChangingFloor=true;
                 }
-                if (!roomid.equals(lastRoomId) && !isChangingFloor) {
+                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2()<MAX_DETECTION_RANGE) {
                     lastRoomId = roomid;
                     Calendar rightNow = Calendar.getInstance();
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                    String day = "";
 
-                    switch (currentDay) {
-                        case Calendar.MONDAY:
-                            day = "Monday";
-                            break;
-                        case Calendar.TUESDAY:
-                            day = "Tuesday";
-                            break;
-                        case Calendar.WEDNESDAY:
-                            day = "Wendnesday";
-                            break;
-                        case Calendar.THURSDAY:
-                            day = "Thursday";
-                            break;
-                        case Calendar.FRIDAY:
-                            day = "Friday";
-                            break;
-                        case Calendar.SUNDAY:
-                            day = "Sunday";
-                            break;
-                        case Calendar.SATURDAY:
-                            day = "Saturday";
-                            break;
-                    }
+
+                    CalendarToStringConverter converter = new CalendarToStringConverter();
+                    String day = converter.getDayFromCalendarEnum(currentDay);
 
                     indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                     indoorwayMapView.getPosition().setPosition(currentPosition, true);
