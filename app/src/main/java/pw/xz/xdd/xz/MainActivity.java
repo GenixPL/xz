@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity{
 
                 //database.getByRoomAndTime(room.getId(),currentTime.getHours()  );
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
-                indoorwayMapView.getPosition().setPosition(position, true);
+                indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
                 tx = findViewById(R.id.tx);
                 cardView = findViewById(R.id.card_view);
