@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                     List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
-                            20,20, "Saturday", getApplicationContext());
+                            20,20, "Saturday");
 
                     tx = findViewById(R.id.tx);
                     //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);

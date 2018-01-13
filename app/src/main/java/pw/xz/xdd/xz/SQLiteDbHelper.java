@@ -1,9 +1,7 @@
 package pw.xz.xdd.xz;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -54,12 +52,10 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Entry.TABLENAME;
 
-
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
         Log.e("myDebug","SQL database created");
-
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -96,7 +92,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     }
 
     public List<Lecture> getByRoomAndTime(String room_id,
-                                          int start_time_hh, int start_time_mm, String day, Context context)
+                                          int start_time_hh, int start_time_mm, String day)
     {
         SQLiteDatabase db = getReadableDatabase();
         // Define a projection that specifies which columns from the database
@@ -116,7 +112,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         // Filter results WHERE "title" = 'My Title'
         String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " >= ? AND "
                 + Entry.START_TIME_MM + " != ? AND " + Entry.DAY + " = ?";
-        //String selection = Entry.ROOM_ID + " = ?";
 
         String[] selectionArgs = {
                 room_id,
@@ -166,15 +161,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
                     end_time_mm, day, room_id, description));
 
             Log.e("myDebug","got query results");
-            //DEBUG
-            //Intent intent = new Intent("dupa");
-            //intent.putExtra("data","got query resaults");
-            //context.sendBroadcast(intent);
-
         }
         cursor.close();
-
-
         return results;
     }
 
