@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
-                toastMessage(result.get(0).getId());
+                toastMessage(result.get(0).getName() + "");
             }
         });
     }
