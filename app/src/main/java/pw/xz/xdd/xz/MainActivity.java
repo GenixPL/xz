@@ -4,6 +4,7 @@ package pw.xz.xdd.xz;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 
 import com.indoorway.android.common.sdk.IndoorwaySdk;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
     public MarkersLayer myLayer;
+    private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
 
     @Override
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity{
             public void onAction(IndoorwayMap indoorwayMap) {
                 currentMap = indoorwayMap;
 
-                RoomProximityDetector detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
+                detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
 
                 myLayer = indoorwayMapView.getMarker().addLayer(0);
             }
@@ -113,6 +115,8 @@ public class MainActivity extends AppCompatActivity{
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
+                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
+                indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(position, true);
             }
         };
