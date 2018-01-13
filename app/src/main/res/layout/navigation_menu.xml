@@ -3,9 +3,10 @@
     android:layout_height="match_parent"
     android:layout_width="wrap_content">
 
-    <item android:id="@+id/naviToRoom_EditText"
+    <item android:id="@+id/navToRoom"
         android:title="Navigate to room"
-        android:icon="@mipmap/ic_directions_black_24dp"/>
+        android:icon="@mipmap/ic_directions_black_24dp"
+        />
 
 
 
