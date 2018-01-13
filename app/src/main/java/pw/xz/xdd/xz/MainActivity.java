@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 // for eg. after going to different building level.
                 boolean isChangingFloor= false;
                 String roomid="";
-                Room room;
+                Room room ;
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 try {
 
