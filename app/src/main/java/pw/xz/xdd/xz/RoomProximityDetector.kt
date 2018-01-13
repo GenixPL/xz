@@ -39,16 +39,20 @@ class RoomProximityDetector(
         for (mapObject in map.objects ){
             var isAuditory = false
             var isRoom = true
-
+            var shouldAdd=false
             //tutaj sa dirty hacki bo pokoje nie maja tagow??
             if (mapObject.name!!.toLowerCase().contains("room")){
-
+                shouldAdd = true
             }
             else if (mapObject.name!!.toLowerCase().isNumber()){
                 isAuditory=true
+                shouldAdd=true
             }
-            var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ",""), mapObject.id, mapObject.centerPoint, isAuditory);
-            roomsList.add(thisRoom)
+
+            if (shouldAdd) {
+                var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ", ""), mapObject.id, mapObject.centerPoint, isAuditory);
+                roomsList.add(thisRoom)
+            }
         }
     }
     fun getNearestRoom(position:Coordinates):Pair<Room?, Double> {
