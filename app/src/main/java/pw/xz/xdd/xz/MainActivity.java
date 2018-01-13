@@ -10,18 +10,25 @@ import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
 import com.indoorway.android.common.sdk.model.IndoorwayObjectParameters;
+import com.indoorway.android.common.sdk.model.IndoorwayPosition;
+import com.indoorway.android.fragments.sdk.map.IndoorwayMapFragment;
+import com.indoorway.android.fragments.sdk.map.MapFragment;
 import com.indoorway.android.location.sdk.IndoorwayLocationSdk;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
     public MarkersLayer myLayer;
+    private IndoorwayPosition currentPosition;
+    private IndoorwayLocationSdkState currentState;
 
 
     @Override
@@ -51,10 +58,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void locationStuff(){
+
         Action1<IndoorwayLocationSdkState> listener = new Action1<IndoorwayLocationSdkState>() {
             @Override
             public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
-                // handle state changes
+                currentState = IndoorwayLocationSdk.instance()
+                        .state()
+                        .current();
             }
         };
 
@@ -68,6 +78,33 @@ public class MainActivity extends AppCompatActivity {
                 .state()
                 .onChange()
                 .unregister(listener);
+
+
+        Action1<IndoorwayPosition> listener2 = new Action1<IndoorwayPosition>() {
+            @Override
+            public void onAction(IndoorwayPosition position) {
+                // store last position as a field
+                currentPosition = position;
+
+                // react for position changes...
+
+                // If you are using map view, you can pass position.
+                // Second argument indicates if you want to auto reload map on position change
+                // for eg. after going to different building level.
+                indoorwayMapView.getPosition().setPosition(currentPosition, true);
+            }
+        };
+
+        IndoorwayLocationSdk.instance()
+                .position()
+                .onChange()
+                .register(listener2);
+
+        // remember to unregister listener!
+        IndoorwayLocationSdk.instance()
+                .position()
+                .onChange()
+                .unregister(listener2);
     }
 
     private void initializeMap(){
@@ -88,4 +125,5 @@ public class MainActivity extends AppCompatActivity {
         snackbar.show();
 
     }
+
 }
