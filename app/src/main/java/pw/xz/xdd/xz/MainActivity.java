@@ -11,11 +11,18 @@ import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private IndoorwayMapView indoorwayMapView;
+    public IndoorwayMapView indoorwayMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
+            @Override
+            public void onAction(IndoorwayMap indoorwayMap) {
+               RoomProximityDetector detector = new RoomProximityDetector(indoorwayMap);
+            }
+        });
         setContentView(R.layout.activity_main);
 
         // init application context on each Application start
