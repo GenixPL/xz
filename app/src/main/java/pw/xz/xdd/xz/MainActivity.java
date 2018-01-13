@@ -216,10 +216,20 @@ public class MainActivity extends AppCompatActivity {
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
+                boolean isChangingFloor= false;
+                String roomid="";
+                Room room;
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
-                Room room = roomData.component1();
-                String roomid = room.getId();
-                if (!roomid.equals(lastRoomId)) {
+                try {
+
+                    room = roomData.component1();
+                    roomid = room.getId();
+                }
+                catch(Exception e){
+                    //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
+                    isChangingFloor=true;
+                }
+                if (!roomid.equals(lastRoomId) && !isChangingFloor) {
                     lastRoomId = roomid;
                     Calendar rightNow = Calendar.getInstance();
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
