@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context="pw.xz.xdd.xz.MainActivity">
 
+    <com.indoorway.android.map.sdk.view.IndoorwayMapView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mapView" />
+
 </android.support.constraint.ConstraintLayout>
