@@ -62,7 +62,7 @@
     </android.support.design.widget.CoordinatorLayout>
     
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav"
+        android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@layout/navigation_menu"

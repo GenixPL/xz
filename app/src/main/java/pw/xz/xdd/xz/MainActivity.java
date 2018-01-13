@@ -3,8 +3,6 @@ package pw.xz.xdd.xz;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     //Layout variables DO NOT CHANGE
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,10 +174,6 @@ public class MainActivity extends AppCompatActivity {
         initStatusListeners();
         initNavigationDrawer();
 
-        IntentFilter filter = new IntentFilter("dupa");
-        BroadcastToast bc = new BroadcastToast();
-        registerReceiver(bc, filter);
-
     }
 
     private void initStatusListeners() {
@@ -227,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 .register(sdkStateListener);
     }
 
-    private void displayUser() {
+    private void displayUser(){
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
 
@@ -240,32 +234,27 @@ public class MainActivity extends AppCompatActivity {
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
-                boolean isChangingFloor = false;
-                String roomid = "";
+                boolean isChangingFloor= false;
+                String roomid="";
                 Room room;
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 try {
 
                     room = roomData.component1();
                     roomid = room.getId();
-                } catch (Exception e) {
-                    //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
-                    isChangingFloor = true;
                 }
-                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE) {
-                    toastMessage(roomData.component2().toString());
+                catch(Exception e){
+                    //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
+                    isChangingFloor=true;
+                }
+                if (!roomid.equals(lastRoomId) && !isChangingFloor) {
                     lastRoomId = roomid;
                     Calendar rightNow = Calendar.getInstance();
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
+                    String day = "";
 
-                    //porazka javy to niemoznosc czytania mapy z kotlina bez obiektu ??!?!?!?
-                    CalendarToStringConverter converter = new CalendarToStringConverter();
-                    String day = converter.getDayFromCalendarEnum(currentDay);
-
-                    // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
-            /*
                     switch (currentDay) {
                         case Calendar.MONDAY:
                             day = "Monday";
@@ -289,17 +278,18 @@ public class MainActivity extends AppCompatActivity {
                             day = "Saturday";
                             break;
                     }
-*/
+
                     indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                     indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
-                    //List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",20,20, "Saturday");
+                    List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
+                            20,20, "Saturday");
 
                     tx = findViewById(R.id.tx);
-                    tx.setText(roomid + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+                    //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
                     //tx.setText(lectures.get(0).getName());
-                    //tx.setText("tekst");
+                    tx.setText("tekst");
                     cardView = findViewById(R.id.card_view);
                     tx.setGravity(Gravity.CENTER);
 
@@ -340,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                 //indoorwayMapView.getSelection().selectObject();
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
-                if (lastRoomId != null) { //jezeli cos bylo zaznaczone
+                if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
@@ -372,9 +362,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initNavigationDrawer() {
+    private void initNavigationDrawer(){
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        navView = findViewById(R.id.navView);
+
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                toastMessage("sdfsdf");
+
+                return true;
+            }
+        });
 
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -382,29 +383,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
 
-        if (mToggle.onOptionsItemSelected(item)) {
+        if(mToggle.onOptionsItemSelected(item)){
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void toastMessage(String message) {
+    public void toastMessage(String message){
         //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         //snackbar.show();
 
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
         toast.show();
 
-    }
-
-    class BroadcastToast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intet) {
-            toastMessage(intet.getStringExtra("data"));
-        }
     }
 
 }
