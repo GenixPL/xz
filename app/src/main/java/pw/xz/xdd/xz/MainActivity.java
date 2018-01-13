@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -301,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
 
                     tx.setVisibility(View.VISIBLE);
                     cardView.setVisibility(View.VISIBLE);
+
+                    Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.sample_animation);
+                    cardView.startAnimation(animateIn);
 
 
                     Handler handler = new Handler();
