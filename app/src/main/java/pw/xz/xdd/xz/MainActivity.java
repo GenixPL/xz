@@ -3,12 +3,9 @@ package pw.xz.xdd.xz;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,46 +15,33 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.indoorway.android.common.sdk.IndoorwaySdk;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
 import com.indoorway.android.common.sdk.model.IndoorwayObjectParameters;
 import com.indoorway.android.common.sdk.model.IndoorwayPosition;
-import com.indoorway.android.fragments.sdk.map.IndoorwayMapFragment;
-import com.indoorway.android.fragments.sdk.map.MapFragment;
 import com.indoorway.android.location.sdk.IndoorwayLocationSdk;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkError;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
-import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -284,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                     tx.setVisibility(View.VISIBLE);
                     cardView.setVisibility(View.VISIBLE);
 
-                    Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.sample_animation);
+                    Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
                     cardView.startAnimation(animateIn);
 
 
@@ -292,8 +276,17 @@ public class MainActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            tx.setVisibility(View.INVISIBLE);
-                            cardView.setVisibility(View.INVISIBLE);
+                            Animation animateOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
+                            cardView.startAnimation(animateOut);
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tx.setVisibility(View.INVISIBLE);
+                                    cardView.setVisibility(View.INVISIBLE);
+                                }
+                            }, 750);
+
                         }
                     }, 3000);
 
