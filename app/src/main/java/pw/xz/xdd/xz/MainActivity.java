@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity{
                 //toastMessage(coordinates.toString());
                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
-                tx.setText(result.get(0).getName() + "");
+                //tx.setText(result.get(0).getName() + "");
             }
         });
 
