@@ -2,9 +2,13 @@ package pw.xz.xdd.xz;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +18,7 @@ import android.util.Pair;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
     //Layout variables DO NOT CHANGE
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -354,6 +360,19 @@ public class MainActivity extends AppCompatActivity {
     private void initNavigationDrawer(){
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        navView = findViewById(R.id.nav);
+
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                navRoomFragment navRoomFragment = new navRoomFragment();
+                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.nav_Fragment, navRoomFragment).commit();
+
+                return true;
+            }
+        });
 
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
