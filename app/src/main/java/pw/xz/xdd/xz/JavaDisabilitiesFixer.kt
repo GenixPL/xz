@@ -5,8 +5,8 @@ import java.util.*
 /**
  * Created by emile on 13-Jan-18.
  */
-class JavaDisabilitiesFixer {
-    companion object {
+
+        val day = "Monday"
         val days = mapOf<Int, String>(
                 Calendar.MONDAY to "Monday",
                 Calendar.TUESDAY to "Tuesday",
@@ -15,7 +15,7 @@ class JavaDisabilitiesFixer {
                 Calendar.FRIDAY to "Friday",
                 Calendar.MONDAY to "Monday")
 
-    }
+
 
     fun getDayFromCalendarEnum(calendarDay: Int): String? {
         return days[calendarDay]
@@ -29,4 +29,3 @@ class JavaDisabilitiesFixer {
         }
         return null
     }
-}

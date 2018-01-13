@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
 
-                    String day=JavaDisabilitiesFixer.Companion.getDays().get(currentDay);
+                    String day=JavaDisabilitiesFixerKt.getDay();
 
                    // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
             /*
