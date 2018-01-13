@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
+        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
