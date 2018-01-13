@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayUser() {
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
+
             public void onAction(IndoorwayPosition position) {
                 // store last position as a field
                 currentPosition = position;
@@ -212,15 +214,44 @@ public class MainActivity extends AppCompatActivity {
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 Room room = roomData.component1();
 
-                //database.getByRoomAndTime(room.getId(),currentTime.getHours(),currentTime.getMinutes(),day.);
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinutes = rightNow.get(Calendar.MINUTE);
+                int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
+                String day = "";
+
+                switch (currentDay) {
+                    case Calendar.MONDAY:
+                        day = "Monday";
+
+                    case Calendar.TUESDAY:
+                        day = "Tuesday";
+
+                    case Calendar.WEDNESDAY:
+                        day = "Wednesday";
+
+                    case Calendar.THURSDAY:
+                        day = "Thursday";
+
+                    case Calendar.FRIDAY:
+                        day = "Friday";
+
+                    case Calendar.SATURDAY:
+                        day = "Saturday";
+
+                    case Calendar.SUNDAY:
+                        day = "Sunday";
+                }
+
+                //database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
-
                 tx = findViewById(R.id.tx);
-                //tx.setText(tex);
+                tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
                 cardView = findViewById(R.id.card_view);
                 tx.setGravity(Gravity.CENTER);
+
                 tx.setVisibility(View.VISIBLE);
                 cardView.setVisibility(View.VISIBLE);
 
@@ -233,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
                         cardView.setVisibility(View.INVISIBLE);
                     }
                 }, 3000);
+
 
             }
         };
