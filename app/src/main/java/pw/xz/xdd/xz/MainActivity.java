@@ -226,7 +226,8 @@ public class MainActivity extends AppCompatActivity {
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
                     String day = "";
-                    switch (currentDay){
+
+                    switch (currentDay) {
                         case Calendar.MONDAY:
                             day = "Monday";
                             break;
@@ -249,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                             day = "Saturday";
                             break;
                     }
+
 
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
@@ -298,7 +300,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
                 if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
-
+                    //to sie zaznacza jeszcze raz xd
+                    indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
 
 

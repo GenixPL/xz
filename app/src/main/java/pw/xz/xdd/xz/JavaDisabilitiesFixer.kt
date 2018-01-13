@@ -16,7 +16,7 @@ var days = mapOf<Int, String>(
         Calendar.FRIDAY to "Friday",
         Calendar.MONDAY to "Monday")
 fun getDayFromCalendarEnum(calendarDay:Int):String?{
-    return days[0]
+    return days[calendarDay]
 }
 fun getCalendarEnumFromDay(day:String):Int?{
     for ((key,value) in days){
