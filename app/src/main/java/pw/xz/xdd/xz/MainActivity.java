@@ -10,11 +10,12 @@ import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
+import com.indoorway.android.map.sdk.view.MapView;
 
 public class MainActivity extends AppCompatActivity {
 
     public IndoorwayMapView indoorwayMapView;
-
+    public IndoorwayMap indoorwayMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +29,17 @@ public class MainActivity extends AppCompatActivity {
         IndoorwaySdk.configure("6513a6eb-133a-43f6-a206-6afe3e07fe96");
 
         indoorwayMapView = findViewById(R.id.mapView);
-        initializeMap();
 
-        RoomProximityDetector detector = new RoomProximityDetector(indoorwayMapView);
+        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
+            @Override
+            public void onAction(IndoorwayMap indoorwayMap) {
+                indoorwayMap = indoorwayMap;
+                initializeMap();
+                RoomProximityDetector detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
+
+            }
+        });
+
 
 
     }
