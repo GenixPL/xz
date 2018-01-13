@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Pair;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
     CardView cardView;
     String tex;
 
+    //Layout variables DO NOT CHANGE
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         initializeMap();
         displayUser();
         initStatusListeners();
+        initNavigationDrawer();
 
     }
 
@@ -203,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 .register(sdkStateListener);
     }
 
-    private void displayUser() {
+    private void displayUser(){
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
 
@@ -292,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+
         IndoorwayLocationSdk.instance()
                 .position()
                 .onChange()
@@ -341,11 +349,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void toastMessage(String message) {
+    private void initNavigationDrawer(){
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void toastMessage(String message){
         //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         //snackbar.show();
 
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
         toast.show();
 
     }
