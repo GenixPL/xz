@@ -268,15 +268,17 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
 
-
-
-                    //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                     indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                     indoorwayMapView.getPosition().setPosition(currentPosition, true);
+
+                    //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
+                    List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
+                            20,20, "Saturday");
 
                     tx = findViewById(R.id.tx);
                     //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
                     //tx.setText(lectures.get(0).getName());
+                    tx.setText("tekst");
                     cardView = findViewById(R.id.card_view);
                     tx.setGravity(Gravity.CENTER);
 
