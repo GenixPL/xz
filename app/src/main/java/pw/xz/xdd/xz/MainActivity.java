@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity{
                 currentMap = indoorwayMap;
 
                 detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
-
+                detector.getAllRooms();
                 myLayer = indoorwayMapView.getMarker().addLayer(0);
             }
         });
