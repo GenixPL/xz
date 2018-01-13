@@ -2,6 +2,9 @@ package pw.xz.xdd.xz;
 
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -376,7 +379,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                toastMessage("sdfsdf");
+                Fragment newFragment;
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                newFragment = new Fragment();
+                transaction.replace(R.id.nav_Fragment, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                setTitle("BLA");
 
                 return true;
             }
