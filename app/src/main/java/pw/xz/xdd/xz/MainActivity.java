@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                 int currentMinutes = rightNow.get(Calendar.MINUTE);
                 int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                String day = JavaDisabilitiesFixerKt.getDays().get(currentDay);
+                String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
 
 
                 String roomId = room.getId();
