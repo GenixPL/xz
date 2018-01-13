@@ -1,6 +1,7 @@
 package pw.xz.xdd.xz;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -62,13 +63,19 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
-                toastMessage(result.get(0).getId());
+                toastMessage(result.get(0).getName() + "");
             }
         });
     }
 
 
     public void toastMessage(String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
+        snackbar.show();
+
+
+
     }
 }
