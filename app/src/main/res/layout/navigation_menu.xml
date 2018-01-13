@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="wrap_content">
 
     <item android:id="@+id/naviToRoom_EditText"
         android:title="Navigate to room"/>
@@ -9,4 +9,4 @@
     <item android:id="@+id/naviToRoom_Button"
         android:title="Navigate to room"/>
 
-</android.support.constraint.ConstraintLayout>
+</menu>

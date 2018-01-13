@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
+        SQLiteDb sql = new SQLiteDb(getApplicationContext());
+        sql.sqliteDbUpdateOnce(getApplicationContext());
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
