@@ -106,7 +106,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
         // Filter results WHERE "title" = 'My Title'
         String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " >= ? AND "
-                + Entry.START_TIME_MM + " <> ? AND " + Entry.DAY + " = ?";
+                + Entry.START_TIME_MM + " != ? AND " + Entry.DAY + " = ?";
 
         String[] selectionArgs = {
                 room_id,
@@ -117,7 +117,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                Entry.START_TIME_HH + " ASC " + Entry.START_TIME_MM + " ASC";
+                Entry.START_TIME_HH + " ASC, " + Entry.START_TIME_MM + " ASC";
 
         Cursor cursor = db.query(
                 Entry.TABLENAME,                     // The table to query
