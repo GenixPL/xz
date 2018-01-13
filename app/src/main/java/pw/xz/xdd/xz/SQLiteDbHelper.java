@@ -139,9 +139,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
                 sortOrder//null                                 // The sort order
         );
 
-        Log.e("myDebug", "col: " + Integer.toString(cursor.getColumnCount()));
-        Log.e("myDebug", "col: " + Integer.toString(cursor.getCount()));
-
         List<Lecture> results = new ArrayList<>();
 
         while(cursor.moveToNext()) {
