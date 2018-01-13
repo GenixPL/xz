@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity{
 
                 //database.getByRoomAndTime(room.getId(),currentTime.getHours(),currentTime.getMinutes(),day.);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
-                indoorwayMapView.getPosition().setPosition(position, true);
+                indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
 
 
