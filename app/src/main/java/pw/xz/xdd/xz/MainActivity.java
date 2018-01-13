@@ -43,20 +43,12 @@ public class MainActivity extends AppCompatActivity{
         indoorwayMapView = findViewById(R.id.mapView);
 
         initializeMap();
-
-        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
-            @Override
-            public void onAction(IndoorwayMap indoorwayMap) {
-                currentMap = indoorwayMap;
-
-                detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
-                detector.getAllRooms();
-                myLayer = indoorwayMapView.getMarker().addLayer(0);
-            }
-        });
-
         displayUser();
+        initStatusListeners();
 
+    }
+
+    private void initStatusListeners(){
         Action1<IndoorwayLocationSdkError> listener = new Action1<IndoorwayLocationSdkError>() {
             @Override
             public void onAction(IndoorwayLocationSdkError error) {
@@ -99,7 +91,6 @@ public class MainActivity extends AppCompatActivity{
                 .state()
                 .onChange()
                 .register(listenerCurr);
-
     }
 
     private void displayUser(){
@@ -110,7 +101,6 @@ public class MainActivity extends AppCompatActivity{
                 currentPosition = position;
 
                 // react for position changes...
-                toastMessage("something");
 
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
@@ -139,6 +129,19 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+
+        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
+            @Override
+            public void onAction(IndoorwayMap indoorwayMap) {
+                currentMap = indoorwayMap;
+
+                detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
+                detector.getAllRooms();
+
+                myLayer = indoorwayMapView.getMarker().addLayer(0);
+            }
+        });
+
     }
 
     public void toastMessage(String message){
