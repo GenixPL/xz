@@ -6,13 +6,16 @@ import java.util.*
  * Created by emile on 13-Jan-18.
  */
 class JavaDisabilitiesFixer {
-    val days = mapOf<Int, String>(
-            Calendar.MONDAY to "Monday",
-            Calendar.TUESDAY to "Tuesday",
-            Calendar.WEDNESDAY to "Wednesday",
-            Calendar.THURSDAY to "Thursday",
-            Calendar.FRIDAY to "Friday",
-            Calendar.MONDAY to "Monday")
+    companion object {
+        val days = mapOf<Int, String>(
+                Calendar.MONDAY to "Monday",
+                Calendar.TUESDAY to "Tuesday",
+                Calendar.WEDNESDAY to "Wednesday",
+                Calendar.THURSDAY to "Thursday",
+                Calendar.FRIDAY to "Friday",
+                Calendar.MONDAY to "Monday")
+
+    }
 
     fun getDayFromCalendarEnum(calendarDay: Int): String? {
         return days[calendarDay]

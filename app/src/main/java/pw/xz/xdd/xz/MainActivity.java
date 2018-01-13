@@ -255,9 +255,8 @@ public class MainActivity extends AppCompatActivity {
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                    String day = "";
-                    JavaDisabilitiesFixer a = new JavaDisabilitiesFixer();
-                    day = a.getDays().get(Calendar.MONDAY);
+
+                    String day=JavaDisabilitiesFixer.Companion.getDays().get(currentDay);
 
                    // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
             /*
