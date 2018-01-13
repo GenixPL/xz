@@ -158,22 +158,22 @@ public class MainActivity extends AppCompatActivity{
             public void onAction(IndoorwayLocationSdkError error) {
                 if (error instanceof IndoorwayLocationSdkError.BleNotSupported) {
                     // Bluetooth Low Energy is not supported, positioning service will be stopped, it can't work
-                    toastMessage("Energy");
+                    toastMessage("Low energy error");
                 } else if (error instanceof IndoorwayLocationSdkError.MissingPermission) {
                     // Some permissions are missing, ask for it.permission
-                    toastMessage("permissions");
+                    toastMessage("Permissions error");
                 } else if (error instanceof IndoorwayLocationSdkError.BluetoothDisabled) {
                     // Bluetooth is disabled, user have to turn it on
-                    toastMessage("disabled blue");
+                    toastMessage("Disabled bluetooth error");
                 } else if (error instanceof IndoorwayLocationSdkError.LocationDisabled) {
                     // Location is disabled, user have to turn it on
-                    toastMessage("disabled location");
+                    toastMessage("Disabled location error");
                 } else if (error instanceof IndoorwayLocationSdkError.UnableToFetchData) {
                     // Network-related error, service will be restarted on network connection established
-                    toastMessage("net");
+                    toastMessage("Network-related error");
                 } else if (error instanceof IndoorwayLocationSdkError.NoRadioMaps) {
                     // Measurements have to be taken in order to use location
-                    toastMessage("measure");
+                    toastMessage("Measurements error");
                 }
             }
         };
