@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pw.xz.xdd.xz.MainActivity">
+    tools:context="pw.xz.xdd.xz.MainActivity"
+    android:id="@+id/drawerLayout">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cor"

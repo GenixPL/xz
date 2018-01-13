@@ -5,47 +5,37 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Pair;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.indoorway.android.common.sdk.IndoorwaySdk;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
 import com.indoorway.android.common.sdk.model.IndoorwayObjectParameters;
 import com.indoorway.android.common.sdk.model.IndoorwayPosition;
-import com.indoorway.android.fragments.sdk.map.IndoorwayMapFragment;
-import com.indoorway.android.fragments.sdk.map.MapFragment;
 import com.indoorway.android.location.sdk.IndoorwayLocationSdk;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkError;
 import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
-import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
     public class TopExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private Thread.UncaughtExceptionHandler defaultUEH;
@@ -59,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         public void uncaughtException(Thread t, Throwable e) {
             StackTraceElement[] arr = e.getStackTrace();
-            String report = e.toString() + "\n\n";
+            String report = e.toString()+"\n\n";
             report += "--------- Stack trace ---------\n\n";
-            for (int i = 0; i < arr.length; i++) {
-                report += "    " + arr[i].toString() + "\n";
+            for (int i=0; i<arr.length; i++)
+            {
+                report += "    "+arr[i].toString()+"\n";
             }
             report += "-------------------------------\n\n";
 
@@ -70,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
 // AsyncTask, then the actual exception can be found with getCause
             report += "--------- Cause ---------\n\n";
             Throwable cause = e.getCause();
-            if (cause != null) {
+            if(cause != null) {
                 report += cause.toString() + "\n\n";
                 arr = cause.getStackTrace();
-                for (int i = 0; i < arr.length; i++) {
-                    report += "    " + arr[i].toString() + "\n";
+                for (int i=0; i<arr.length; i++)
+                {
+                    report += "    "+arr[i].toString()+"\n";
                 }
             }
             report += "-------------------------------\n\n";
@@ -84,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         "stack.trace", Context.MODE_PRIVATE);
                 trace.write(report.getBytes());
                 trace.close();
-            } catch (IOException ioe) {
+            } catch(IOException ioe) {
 // ...
             }
 
@@ -98,10 +90,13 @@ public class MainActivity extends AppCompatActivity {
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
-
     TextView tx;
     CardView cardView;
     String tex;
+
+    //Layout variables DO NOT CHANGE
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 trace += line + "\n";
             }
         } catch (FileNotFoundException fnfe) {
-// ...
+            // ...
         } catch (IOException ioe) {
-// ...
+            // ...
         }
 
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -145,18 +140,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
-        SQLiteDb sql = new SQLiteDb(getApplicationContext());
-        sql.sqliteDbUpdateOnce(getApplicationContext());
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
         initializeMap();
         displayUser();
         initStatusListeners();
+        initNavigationDrawer();
 
     }
 
-    private void initStatusListeners() {
+    private void initStatusListeners(){
         Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
             @Override
             public void onAction(IndoorwayLocationSdkError error) {
@@ -201,10 +195,9 @@ public class MainActivity extends AppCompatActivity {
                 .register(sdkStateListener);
     }
 
-    private void displayUser() {
+    private void displayUser(){
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
-
             public void onAction(IndoorwayPosition position) {
                 // store last position as a field
                 currentPosition = position;
@@ -216,41 +209,29 @@ public class MainActivity extends AppCompatActivity {
                 // for eg. after going to different building level.
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 Room room = roomData.component1();
-                String roomid = room.getId();
 
-                Calendar rightNow = Calendar.getInstance();
-                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-                int currentMinutes = rightNow.get(Calendar.MINUTE);
-                int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
-
-
-                //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
+                //database.getByRoomAndTime(room.getId(),currentTime.getHours(),currentTime.getMinutes(),day.);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
+
+
                 tx = findViewById(R.id.tx);
-                //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-                //tx.setText(lectures.get(0).getName());
+                //tx.setText(tex);
                 cardView = findViewById(R.id.card_view);
                 tx.setGravity(Gravity.CENTER);
+                tx.setVisibility(View.VISIBLE);
+                cardView.setVisibility(View.VISIBLE);
 
 
-
-                if (roomid != room.getId()){
-                    tx.setVisibility(View.VISIBLE);
-                    cardView.setVisibility(View.VISIBLE);
-
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            tx.setVisibility(View.INVISIBLE);
-                            cardView.setVisibility(View.INVISIBLE);
-                        }
-                    }, 3000);
-                }
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tx.setVisibility(View.INVISIBLE);
+                        cardView.setVisibility(View.INVISIBLE);
+                    }
+                }, 3000);
 
             }
         };
@@ -261,23 +242,18 @@ public class MainActivity extends AppCompatActivity {
                 .register(positionListener);
     }
 
-    private void initializeMap() {
+    private void initializeMap(){
         indoorwayMapView.load("CScrSxCVhQg", "3-_M01M3r5w");
 
         indoorwayMapView.getTouch().setOnClickListener(new Action1<Coordinates>() {
             @Override
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
-                //indoorwayMapView.getSelection().selectObject();
-                try {
-                    List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
-                    //tx.setText(result.get(0).getName() + "");
-                    tex = result.get(0).getId() + "";
-                    toastMessage(tex);
-                } catch (Exception e) {
-                    toastMessage("error byl");
-                }
+                //tx.setText(result.get(0).getName() + "");
+                tex = result.get(0).getName()+"";
+                toastMessage(tex);
             }
         });
 
@@ -286,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(IndoorwayMap indoorwayMap) {
                 currentMap = indoorwayMap;
 
-                detector = new RoomProximityDetector(indoorwayMap, indoorwayMapView);
+                detector = new RoomProximityDetector(indoorwayMap,indoorwayMapView);
                 detector.getAllRooms();
 
                 myLayer = indoorwayMapView.getMarker().addLayer(0);
@@ -295,11 +271,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void toastMessage(String message) {
+    private void initNavigationDrawer(){
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void toastMessage(String message){
         //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         //snackbar.show();
 
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
         toast.show();
 
     }
