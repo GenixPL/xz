@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
-    private double MAX_DETECTION_RANGE = 99999;
+    private double MAX_DETECTION_RANGE = 8.5;
     private String lastRoomId="";
 
     TextView tx;
@@ -242,7 +242,8 @@ public class MainActivity extends AppCompatActivity {
                     //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
                     isChangingFloor=true;
                 }
-                if (!roomid.equals(lastRoomId) && !isChangingFloor) {
+                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE) {
+                    toastMessage(roomData.component2().toString());
                     lastRoomId = roomid;
                     Calendar rightNow = Calendar.getInstance();
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
