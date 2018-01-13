@@ -1,14 +1,14 @@
 package pw.xz.xdd.xz
 
-import java.sql.Time
-
 /**
  * Created by emile on 13-Jan-18.
  */
 data class Lecture(
         var name:String,
-        var startTime:Time,
-        var endTime:Time,
+        var startTimeHH:Int,
+        var startTimeMM:Int,
+        var endTimeHH:Int,
+        var endTimeMM:Int,
         var day:String,
         var roomId:String,
         var description:String
