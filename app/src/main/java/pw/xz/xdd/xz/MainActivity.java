@@ -243,9 +243,13 @@ public class MainActivity extends AppCompatActivity {
                         day = "Sunday";
                 }
 
+                String roomId = room.getId();
+
                 //database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
+
+                String lastRoomId = room.getId();
 
                 tx = findViewById(R.id.tx);
                 tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
