@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                    String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
+                    String day = JavaDisabilitiesFixerKt.getDays().get(currentDay);
 
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
@@ -272,6 +272,11 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(Coordinates coordinates) {
                 //toastMessage(coordinates.toString());
                 //indoorwayMapView.getSelection().selectObject();
+
+                //tutaj jest hack na to, zeby sie nie odznaczalo nic na
+
+
+
                 try {
                     List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
