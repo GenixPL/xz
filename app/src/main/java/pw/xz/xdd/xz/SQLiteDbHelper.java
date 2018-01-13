@@ -137,32 +137,21 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         List<Lecture> results = new ArrayList<>();
 
         while(cursor.moveToNext()) {
-            String name = cursor.getString(
-                    cursor.getColumnIndexOrThrow(Entry.NAME));
-            //This is already known
-            //int start_time_hh = cursor.getInt(
-            //        cursor.getColumnIndexOrThrow(Entry.START_TIME_HH));
-            //This is already known
-            //int start_time_mm = cursor.getInt(
-            //        cursor.getColumnIndexOrThrow(Entry.START_TIME_MM));
-            int end_time_hh = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(Entry.END_TIME_HH));
-            int end_time_mm = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(Entry.END_TIME_MM));
-            //This is already known
-            //String day = cursor.getString(
-            //        cursor.getColumnIndexOrThrow(Entry.DAY));
-            //This is already known
-            //String room_id = cursor.getString(
-            //        cursor.getColumnIndexOrThrow(Entry.ROOM_ID));
-            String description = cursor.getString(
-                    cursor.getColumnIndexOrThrow(Entry.DESCRIPTION));
+            //Commented out is already known
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(Entry.NAME));
+            //int start_time_hh = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_HH));
+            //int start_time_mm = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_MM));
+            int end_time_hh = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.END_TIME_HH));
+            int end_time_mm = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.END_TIME_MM));
+            //String day = cursor.getString(cursor.getColumnIndexOrThrow(Entry.DAY));
+            //String room_id = cursor.getString(cursor.getColumnIndexOrThrow(Entry.ROOM_ID));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(Entry.DESCRIPTION));
+
             results.add(new Lecture(name, start_time_hh, start_time_mm, end_time_hh,
                     end_time_mm, day, room_id, description));
-
-            Log.e("myDebug","got query results");
         }
         cursor.close();
+        Log.e("myDebug","got query results");
         return results;
     }
 
