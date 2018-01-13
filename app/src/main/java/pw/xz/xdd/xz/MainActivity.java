@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 // for eg. after going to different building level.
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 Room room = roomData.component1();
+                String roomid = room.getId();
 
                 Calendar rightNow = Calendar.getInstance();
                 int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
@@ -224,32 +225,32 @@ public class MainActivity extends AppCompatActivity {
                 String day = JavaDisabilitiesFixerKt.getDayFromCalendarEnum(currentDay);
 
 
-                String roomId = room.getId();
-
-                //database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
+                //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
-                String lastRoomId = room.getId();
-
                 tx = findViewById(R.id.tx);
-                tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+                //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+                //tx.setText(lectures.get(0).getName());
                 cardView = findViewById(R.id.card_view);
                 tx.setGravity(Gravity.CENTER);
 
-                tx.setVisibility(View.VISIBLE);
-                cardView.setVisibility(View.VISIBLE);
 
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tx.setVisibility(View.INVISIBLE);
-                        cardView.setVisibility(View.INVISIBLE);
-                    }
-                }, 3000);
+                if (roomid != room.getId()){
+                    tx.setVisibility(View.VISIBLE);
+                    cardView.setVisibility(View.VISIBLE);
 
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tx.setVisibility(View.INVISIBLE);
+                            cardView.setVisibility(View.INVISIBLE);
+                        }
+                    }, 3000);
+                }
 
             }
         };
