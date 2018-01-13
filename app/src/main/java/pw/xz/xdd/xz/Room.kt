@@ -12,5 +12,5 @@ data class Room(
         var isAuditory:Boolean
 )
 fun getRoomIDbyName( rooms:List<Room>, name:String):Room{
-    return rooms.filter { x-> x.name==name }[0]
+    return rooms.filter { x-> x.name==name }[0] ;
 }
