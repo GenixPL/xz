@@ -84,11 +84,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         values.put(Entry.DAY, day);
         values.put(Entry.ROOM_ID, room_id);
         values.put(Entry.DESCRIPTION, description);
-
-        //TODO usunąć to?
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(Entry.TABLENAME, null, values);
-
     }
 
     public List<Lecture> getByRoomAndTime(String room_id,
@@ -104,14 +99,14 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
                 //Entry.START_TIME_MM,
                 Entry.END_TIME_HH,
                 Entry.END_TIME_MM,
-                Entry.DAY,
+                //Entry.DAY,
                 //Entry.ROOM_ID,
                 Entry.DESCRIPTION,
         };
 
         // Filter results WHERE "title" = 'My Title'
-        String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " = ? AND "
-                + Entry.START_TIME_HH + " = ? AND " + Entry.DAY + " = ?";
+        String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " >= ? AND "
+                + Entry.START_TIME_MM + " <> ? AND " + Entry.DAY + " = ?";
 
         String[] selectionArgs = {
                 room_id,
@@ -122,7 +117,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                Entry.START_TIME_HH + " ASC" + Entry.END_TIME_MM + " ASC";
+                Entry.START_TIME_HH + " ASC" + Entry.START_TIME_MM + " ASC";
 
         Cursor cursor = db.query(
                 Entry.TABLENAME,                     // The table to query
