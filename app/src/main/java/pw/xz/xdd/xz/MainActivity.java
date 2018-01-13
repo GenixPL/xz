@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     private IndoorwayPosition currentPosition;
     TextView tx;
     CardView cardView;
+    String tex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +121,14 @@ public class MainActivity extends AppCompatActivity{
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 Room room = roomData.component1();
 
-                //database.getByRoomAndTime(room.getId(),currentTime.getHours()  );
+                //database.getByRoomAndTime(room.getId(),currentTime.getHours(),currentTime.getMinutes(),day.);
                 indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
                 indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
+
+
                 tx = findViewById(R.id.tx);
+                //tx.setText(tex);
                 cardView = findViewById(R.id.card_view);
                 tx.setGravity(Gravity.CENTER);
                 tx.setVisibility(View.VISIBLE);
@@ -159,6 +163,8 @@ public class MainActivity extends AppCompatActivity{
                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
                 //tx.setText(result.get(0).getName() + "");
+                tex = result.get(0).getName()+"";
+                toastMessage(tex);
             }
         });
 
