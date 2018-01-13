@@ -8,8 +8,15 @@ import java.util.*
 // no ale ze w javie nie mozna robic dictionary to bym nie pomyslal xdddd
 
 //dla javowcw co musza wszystko miec w funkcjach jednolinikowych :/
+var days = mapOf<Int, String>(
+        Calendar.MONDAY to "Monday",
+        Calendar.TUESDAY to "Tuesday",
+        Calendar.WEDNESDAY to "Wednesday",
+        Calendar.THURSDAY to "Thursday",
+        Calendar.FRIDAY to "Friday",
+        Calendar.MONDAY to "Monday")
 fun getDayFromCalendarEnum(calendarDay:Int):String?{
-    return days[calendarDay]
+    return days[0]
 }
 fun getCalendarEnumFromDay(day:String):Int?{
     for ((key,value) in days){
@@ -19,10 +26,3 @@ fun getCalendarEnumFromDay(day:String):Int?{
     }
     return null
 }
-var days = mapOf<Int, String>(
-        Calendar.MONDAY to "Monday",
-        Calendar.TUESDAY to "Tuesday",
-        Calendar.WEDNESDAY to "Wednesday",
-        Calendar.THURSDAY to "Thursday",
-        Calendar.FRIDAY to "Friday",
-        Calendar.MONDAY to "Monday")

@@ -225,7 +225,30 @@ public class MainActivity extends AppCompatActivity {
                     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-                    String day = JavaDisabilitiesFixerKt.getDays().get(currentDay);
+                    String day = "";
+                    switch (currentDay){
+                        case Calendar.MONDAY:
+                            day = "Monday";
+                            break;
+                        case Calendar.TUESDAY:
+                            day = "Tuesday";
+                            break;
+                        case Calendar.WEDNESDAY:
+                            day = "Wendnesday";
+                            break;
+                        case Calendar.THURSDAY:
+                            day = "Thursday";
+                            break;
+                        case Calendar.FRIDAY:
+                            day = "Friday";
+                            break;
+                        case Calendar.SUNDAY:
+                            day = "Sunday";
+                            break;
+                        case Calendar.SATURDAY:
+                            day = "Saturday";
+                            break;
+                    }
 
 
                     //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
@@ -273,8 +296,10 @@ public class MainActivity extends AppCompatActivity {
                 //toastMessage(coordinates.toString());
                 //indoorwayMapView.getSelection().selectObject();
 
-                //tutaj jest hack na to, zeby sie nie odznaczalo nic na
+                //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
+                if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
 
+                }
 
 
                 try {
