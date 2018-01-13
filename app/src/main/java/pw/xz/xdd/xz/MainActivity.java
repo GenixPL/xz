@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 8.5;
-    private String lastRoomId="";
+    private String lastRoomId = "";
 
     TextView tx;
     CardView cardView;
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter("dupa");
         BroadcastToast bc = new BroadcastToast();
-        registerReceiver(bc,filter);
+        registerReceiver(bc, filter);
 
     }
 
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 .register(sdkStateListener);
     }
 
-    private void displayUser(){
+    private void displayUser() {
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
 
@@ -235,18 +235,17 @@ public class MainActivity extends AppCompatActivity {
                 // If you are using map view, you can pass position.
                 // Second argument indicates if you want to auto reload map on position change
                 // for eg. after going to different building level.
-                boolean isChangingFloor= false;
-                String roomid="";
+                boolean isChangingFloor = false;
+                String roomid = "";
                 Room room;
                 kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
                 try {
 
                     room = roomData.component1();
                     roomid = room.getId();
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
-                    isChangingFloor=true;
+                    isChangingFloor = true;
                 }
                 if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE) {
                     toastMessage(roomData.component2().toString());
@@ -256,9 +255,11 @@ public class MainActivity extends AppCompatActivity {
                     int currentMinutes = rightNow.get(Calendar.MINUTE);
                     int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
 
-                    String day=JavaDisabilitiesFixerKt.getDay();
+                    //porazka javy to niemoznosc czytania mapy z kotlina bez obiektu ??!?!?!?
+                    CalendarToStringConverter converter = new CalendarToStringConverter();
+                    String day = converter.getDayFromCalendarEnum(currentDay);
 
-                   // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
+                    // JavaDisabilitiesFixer.getDays().get(Calendar.MONDAY); //null :///
             /*
                     switch (currentDay) {
                         case Calendar.MONDAY:
@@ -334,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
                 //indoorwayMapView.getSelection().selectObject();
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
-                if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
+                if (lastRoomId != null) { //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
@@ -366,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initNavigationDrawer(){
+    private void initNavigationDrawer() {
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
 
@@ -376,26 +377,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(mToggle.onOptionsItemSelected(item)){
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void toastMessage(String message){
+    public void toastMessage(String message) {
         //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
         //snackbar.show();
 
-        Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
 
     }
-    class BroadcastToast extends BroadcastReceiver{
+
+    class BroadcastToast extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intet){
+        public void onReceive(Context context, Intent intet) {
             toastMessage(intet.getStringExtra("data"));
         }
     }

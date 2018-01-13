@@ -6,15 +6,14 @@ import java.util.*
  * Created by emile on 13-Jan-18.
  */
 
-        val day = "Monday"
-        val days = mapOf<Int, String>(
-                Calendar.MONDAY to "Monday",
-                Calendar.TUESDAY to "Tuesday",
-                Calendar.WEDNESDAY to "Wednesday",
-                Calendar.THURSDAY to "Thursday",
-                Calendar.FRIDAY to "Friday",
-                Calendar.MONDAY to "Monday")
-
+class CalendarToStringConverter {
+    val days = mapOf<Int, String>(
+            Calendar.MONDAY to "Monday",
+            Calendar.TUESDAY to "Tuesday",
+            Calendar.WEDNESDAY to "Wednesday",
+            Calendar.THURSDAY to "Thursday",
+            Calendar.FRIDAY to "Friday",
+            Calendar.MONDAY to "Monday")
 
 
     fun getDayFromCalendarEnum(calendarDay: Int): String? {
@@ -29,3 +28,4 @@ import java.util.*
         }
         return null
     }
+}
