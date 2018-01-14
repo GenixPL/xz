@@ -276,14 +276,14 @@ public class MainActivity extends AppCompatActivity {
                     //to sie zaznacza jeszcze raz xd
                     toastMessage("BYLO!!!");
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
-                }
-                try {
-                    List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
-                    displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
-                    wasLastRoomInfoActivatedByProximitySensor=false;
-                }
-                catch (Exception e){
-                    toastMessage("cos sie zjebalo :/");
+                }else {
+                    try {
+                        List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                        displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
+                        wasLastRoomInfoActivatedByProximitySensor = false;
+                    } catch (Exception e) {
+                        toastMessage("cos sie zjebalo :/");
+                    }
                 }
 
 
