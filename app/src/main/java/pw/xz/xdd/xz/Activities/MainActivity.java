@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
     private ListView navListView;
-    private Coordinates tempCoordinates;
 
     //regarding tapping
     private String lastRoomId = "";
@@ -235,16 +234,15 @@ public class MainActivity extends AppCompatActivity {
         //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
         Log.e("myDebug","number of results:" + lectures.size());
 
-            if (lectures.size() != 0) {
-                tx.setText(lectures.get(0).getName());
-                String text_tmp = lectures.get(0).getStartTimeHH() + ":"
-                        + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
-                sub.setText(text_tmp);
-                text.setText(lectures.get(0).getDescription());
+        if (!lectures.isEmpty())
+        {
+            tx.setText(lectures.get(0).getName());
+            String text_tmp = lectures.get(0).getStartTimeHH() + ":"
+                    + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
+            sub.setText(text_tmp);
+            text.setText(lectures.get(0).getDescription());
 
-                tx.setGravity(Gravity.CENTER);
-
-                animateCardInAndOut();
+            animateCardInAndOut();
             }
             else if (isRoomInfoVisible){
                 animateOutInfoBar();
@@ -329,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
     private void initListView(){
         navListView = findViewById(R.id.navigation_listView);
 
-        String[] buttons = {"Navigate to 216", "Navigate to 213", "Navigate to 212", "Navigate to 211", "Navigate to 214"};
+        String[] buttons = {"Navigate to 216", "Navigate to 213", "Navigate to 212", "Navigate to 211", "Navigate to 214", "Navigate to 103", "Navigate to 107"};
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, buttons);
         navListView.setAdapter(listAdapter);
 
@@ -342,23 +340,24 @@ public class MainActivity extends AppCompatActivity {
 
                         if(i == 0){
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_ca808");
-                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_ca808").getCenterPoint();
 
                         } else if (i == 1) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_fe9c8");
-                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_fe9c8").getCenterPoint();
 
                         } else if (i == 2) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_76b29");
-                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_76b29").getCenterPoint();
 
                         } else if (i == 3) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_36a38");
-                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_36a38").getCenterPoint();
 
                         } else if (i == 4) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_c1a68");
-                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_c1a68").getCenterPoint();
+
+                        } else if (i == 5) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_c0b28");
+
+                        } else if (i == 6) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_a18d9");
 
                         }
 
@@ -405,12 +404,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.navToRoom){
                     navListView.setVisibility(View.VISIBLE);
-//                    mDrawerLayout.closeDrawers();
 
                 } else if (item.getItemId() == R.id.navToFb){
-                    //mDrawerLayout.closeDrawers();
                     startActivity(fbIntent);
-
                     finish();
 
                 }
@@ -438,4 +434,5 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
 
     }
+
 }

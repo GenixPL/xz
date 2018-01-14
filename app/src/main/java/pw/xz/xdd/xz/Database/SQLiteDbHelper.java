@@ -113,12 +113,12 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
         // Filter results WHERE "title" = 'My Title'
         String selection = Entry.ROOM_ID + " = ? AND " + Entry.START_TIME_HH + " >= ? AND "
-                + Entry.START_TIME_MM + " != ? AND " + Entry.DAY + " = ?";
+                + Entry.DAY + " = ?";
 
         String[] selectionArgs = {
                 room_id,
                 Integer.toString(start_time_hh),
-                Integer.toString(start_time_mm),
+                //Integer.toString(start_time_mm),
                 day
         };
 
