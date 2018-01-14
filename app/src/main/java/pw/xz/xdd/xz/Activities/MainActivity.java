@@ -304,10 +304,12 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         if ( lastRoomId!=null && lastRoomId.equals(result.get(0).getId())){
-                            if (isRoomInfoVisible)
+                            if (isRoomInfoVisible) {
                                 animateOutInfoBar();
+                                fillLecturesView(getLecturesForCurrentDatetime(RoomTools.Companion.getRoomByID(result.get(0).getId())));
+                            }
                             //toastMessage("czy to tutaj");
-                            fillLecturesView(getLecturesForCurrentDatetime(RoomTools.Companion.getRoomByID(result.get(0).getId())));
+
                         }
                         else {
 
