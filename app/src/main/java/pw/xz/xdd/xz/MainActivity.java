@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     //Do anulowania handlerow
     Handler globalInfoBarHandler1;
     Handler globalInfoBarHandler2;
+    Handler globalInfoBarHandler3;
     Runnable callback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
         if (isRoomInfoVisible){
             globalInfoBarHandler1.postDelayed(callback,0);
             isRoomInfoVisible=false;
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
+            globalInfoBarHandler3 = new Handler();
+            globalInfoBarHandler3.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     animateCardInAndOut();
