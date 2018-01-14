@@ -363,10 +363,11 @@ public class MainActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                mDrawerLayout.closeDrawers();
 
                 if(item.getItemId() == R.id.navToRoom){
                     navListView.setVisibility(View.VISIBLE);
-                    mDrawerLayout.closeDrawers();
+//                    mDrawerLayout.closeDrawers();
 
                 } else if (item.getItemId() == R.id.navToFb){
                     //mDrawerLayout.closeDrawers();
