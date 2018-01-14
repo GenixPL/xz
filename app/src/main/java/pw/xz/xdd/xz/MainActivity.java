@@ -3,13 +3,13 @@ package pw.xz.xdd.xz;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
     private Boolean wasLastRoomInfoActivatedByProximitySensor=false;
     private Boolean isRoomInfoVisible = false;
 
+    //Do anulowania handlerow
+    Handler globalInfoBarHandler1;
+    Handler globalInfoBarHandler2;
+    Runnable callback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
         animateCardInAndOut();
     }
     private void animateCardInAndOut(){
+        if (isRoomInfoVisible){
+            globalInfoBarHandler1.removeCallbacks(callback);
+        }
         isRoomInfoVisible=true;
         tx.setVisibility(View.VISIBLE);
         sub.setVisibility(View.VISIBLE);
@@ -219,14 +226,14 @@ public class MainActivity extends AppCompatActivity {
         cardView.startAnimation(animateIn);
 
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        globalInfoBarHandler1 = new Handler();
+        callback = new Runnable() {
             @Override
             public void run() {
                 Animation animateOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
                 cardView.startAnimation(animateOut);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                globalInfoBarHandler2 = new Handler();
+                globalInfoBarHandler2.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         tx.setVisibility(View.INVISIBLE);
@@ -238,7 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 }, 450);
 
             }
-        }, 6000);
+        };
+        globalInfoBarHandler1.postDelayed(callback, 6000);
     }
     private void initializeMap() {
         indoorwayMapView.load(BuildingInformations.Companion.getBuildingID(), BuildingInformations.Companion.getStartFloorID());
