@@ -1,4 +1,4 @@
-package pw.xz.xdd.xz;
+package pw.xz.xdd.xz.Database;
 
 import android.content.Context;
 import android.content.res.AssetManager;

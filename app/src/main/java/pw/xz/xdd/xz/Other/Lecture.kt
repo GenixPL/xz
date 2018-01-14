@@ -1,4 +1,4 @@
-package pw.xz.xdd.xz
+package pw.xz.xdd.xz.Other
 
 /**
  * Created by emile on 13-Jan-18.
