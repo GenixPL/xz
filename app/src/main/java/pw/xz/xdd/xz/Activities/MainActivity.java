@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     Runnable callback;
 
 
-    //exampleuser
     User exampleUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
-
-        exampleUser.setUserId(6);
-        exampleUser.setLectures(database.getByRoomAndTime("3-_M01M3r5w_fe9c8",12,12,"Wednesday"));
+        //exampleuser
+        exampleUser = new User(6, database.getByRoomAndTime("3-_M01M3r5w_fe9c8",
+                12,12,"Wednesday") );
 
         initializeMap();
         initListView();
