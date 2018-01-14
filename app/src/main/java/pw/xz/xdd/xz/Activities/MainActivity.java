@@ -293,16 +293,20 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
-
+                if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
+                    //to sie zaznacza jeszcze raz xd
+                    //toastMessage("BYLO!!!");
+                    indoorwayMapView.getSelection().selectObject(lastRoomId);
+                }
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                         wasLastRoomInfoActivatedByProximitySensor = false;
-                        animateOutInfoBar();
+
 
                     } catch (Exception e) {
-                        //toastMessage("cos sie zjebalo :/");
+                        animateOutInfoBar();
                     }
                 if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
