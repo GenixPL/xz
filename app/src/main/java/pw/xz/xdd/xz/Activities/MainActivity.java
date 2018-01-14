@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("myDebug","day:" + day);
 
         List<Lecture> lectures = database.getByRoomAndTime(room.getId(), currentHour, currentMinutes, day);
-        return lectures
+        return lectures;
     }
     private void displayInformationAboutRoom(Room room){
         lastRoomId = room.getId();
