@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public SQLiteDbHelper database;
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
+    private MapObjectSelectionManager mapObjectSelectionManager;
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +75,10 @@ public class MainActivity extends AppCompatActivity {
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
-        initializeMap();
-        configureOnClick();
-        setupClientPositionListener();
-        initStatusListeners();
-        initNavigationDrawer();
 
-        RoomTools.Companion.getAllRooms(currentMap); // read room data
-        detector = new RoomProximityDetector(currentMap, indoorwayMapView);
+
+        initializeMap();
+
 
 
     }
@@ -233,7 +232,15 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(IndoorwayMap indoorwayMap) {
                 currentMap = indoorwayMap;
 
+                setupClientPositionListener();
+                initStatusListeners();
+                initNavigationDrawer();
 
+                RoomTools.Companion.getAllRooms(currentMap); // read room data
+                detector = new RoomProximityDetector(currentMap, indoorwayMapView);
+                mapObjectSelectionManager = new MapObjectSelectionManager(currentMap,indoorwayMapView);
+
+                configureOnClick();
 
                 myLayer = indoorwayMapView.getMarker().addLayer(0);
             }
@@ -244,25 +251,16 @@ public class MainActivity extends AppCompatActivity {
         indoorwayMapView.getTouch().setOnClickListener(new Action1<Coordinates>() {
             @Override
             public void onAction(Coordinates coordinates) {
-                //toastMessage(coordinates.toString());
-                //indoorwayMapView.getSelection().selectObject();
+
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
                 if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
+                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
 
 
-                try {
-                    List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
-
-                    //tx.setText(result.get(0).getName() + "");
-                    tex = result.get(0).getId() + "";
-                    toastMessage(tex);
-                } catch (Exception e) {
-                    toastMessage("error byl");
-                }
             }
         });
     }
