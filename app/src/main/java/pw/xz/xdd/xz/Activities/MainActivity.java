@@ -405,6 +405,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(fbIntent);
                     finish();
 
+                } else if (item.getItemId() == R.id.navToAccount){
+
+                    //USER
                 }
 
                 return true;
