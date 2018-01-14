@@ -137,10 +137,22 @@ public class MainActivity extends AppCompatActivity {
 
                 currentPosition = position;
                 actualInoorwayPosition = position.getCoordinates();
+                boolean isChangingFloor = false;
+                String roomid = "";
 
-                displayInformationAboutNearbyRoom();
+                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualInoorwayPosition);
+                Room room = roomData.component1();
+                try {
+                    roomid = room.getId();
+                } catch (Exception e) {
+                    //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
+                    isChangingFloor = true;
+                }
+                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE) {
+                    displayInformationAboutRoom(room);
 
 
+                }
             }
         };
 
@@ -150,22 +162,10 @@ public class MainActivity extends AppCompatActivity {
                 .register(positionListener);
     }
 
-    private void displayInformationAboutNearbyRoom(){
-        boolean isChangingFloor= false;
-        String roomid="";
-        Room room;
-        kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualInoorwayPosition);
-        try {
+    private void displayInformationAboutRoom(Room room){
 
-            room = roomData.component1();
-            roomid = room.getId();
-        }
-        catch(Exception e){
-            //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
-            isChangingFloor=true;
-        }
-        if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2()<MAX_DETECTION_RANGE) {
-            lastRoomId = roomid;
+
+            lastRoomId = room.getId();
             Calendar rightNow = Calendar.getInstance();
             int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
             int currentMinutes = rightNow.get(Calendar.MINUTE);
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             CalendarToStringConverter converter = new CalendarToStringConverter();
             String day = converter.getDays().get(currentDay);
 
-            indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
+            indoorwayMapView.getSelection().selectObject(room.getId());
             indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
             //List<Lecture> lectures = database.getByRoomAndTime(roomid, currentHour, currentMinutes, day);
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        }
+
     }
     private void animateCardInAndOut(){
         tx.setVisibility(View.VISIBLE);
@@ -264,7 +264,13 @@ public class MainActivity extends AppCompatActivity {
                     //to sie zaznacza jeszcze raz xd
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
-                 List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                try {
+                    List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+                    displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
+                }
+                catch (Exception e){
+                    //nic sie nie stalo!!!
+                }
 
 
             }

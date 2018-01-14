@@ -14,8 +14,11 @@ data class Room(
 )
 class RoomTools {
     companion object {
-        fun getRoomByName(rooms: List<Room>, name: String): Room {
-            return rooms.filter { x -> x.name == name }[0];
+        fun getRoomByName(name: String): Room {
+            return BuildingInformations.rooms.filter { x -> x.name == name }[0];
+        }
+        fun getRoomByID(name: String): Room {
+            return BuildingInformations.rooms.filter { x -> x.id == name }[0];
         }
         fun getAllRooms(map:IndoorwayMap){
             val out:MutableList<Room> = mutableListOf()
