@@ -57,7 +57,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
-        Log.e("myDebug","SQL database created");
+        Log.d("myDebug","SQL database created");
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -88,13 +88,12 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         values.put(Entry.ROOM_ID, room_id);
         values.put(Entry.DESCRIPTION, description);
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(Entry.TABLENAME, null, values);
+        db.insert(Entry.TABLENAME, null, values);
 
     }
 
     public List<Lecture> getByRoomAndTime(String room_id,
-                                          int start_time_hh, int start_time_mm, String day)
+                                          int start_time_hh, String day)
     {
         SQLiteDatabase db = getReadableDatabase();
         // Define a projection that specifies which columns from the database
@@ -118,7 +117,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         String[] selectionArgs = {
                 room_id,
                 Integer.toString(start_time_hh),
-                //Integer.toString(start_time_mm),
                 day
         };
 
@@ -153,7 +151,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
                     end_time_mm, day, room_id, description));
         }
         cursor.close();
-        Log.e("myDebug","got query results");
+        Log.d("myDebug","got query results");
         return results;
     }
 

@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.login.widget.LoginButton;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         //exampleuser
         exampleUser = new User(6, database.getByRoomAndTime("3-_M01M3r5w_fe9c8",
-                12,12,"Wednesday") );
+                12, "Wednesday") );
 
         initializeMap();
         initListView();
@@ -219,12 +218,12 @@ public class MainActivity extends AppCompatActivity {
 
         indoorwayMapView.getSelection().selectObject(room.getId());
         indoorwayMapView.getPosition().setPosition(currentPosition, true);
-        Log.e("myDebug","romId:" + room.getId());
-        Log.e("myDebug","currentHour:" + currentHour);
-        Log.e("myDebug","currentMinutes:" + currentMinutes);
-        Log.e("myDebug","day:" + day);
+        Log.d("myDebug","romId:" + room.getId());
+        Log.d("myDebug","currentHour:" + currentHour);
+        Log.d("myDebug","currentMinutes:" + currentMinutes);
+        Log.d("myDebug","day:" + day);
 
-        List<Lecture> lectures = database.getByRoomAndTime(room.getId(), currentHour, currentMinutes, day);
+        List<Lecture> lectures = database.getByRoomAndTime(room.getId(), currentHour, day);
         return lectures;
     }
     private void displayInformationAboutRoom(Room room){
@@ -236,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         sub = findViewById(R.id.sub);
         text = findViewById(R.id.text);
         //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-        Log.e("myDebug","number of results:" + lectures.size());
+        Log.d("myDebug","number of results:" + lectures.size());
 
         if (!lectures.isEmpty())
         {
