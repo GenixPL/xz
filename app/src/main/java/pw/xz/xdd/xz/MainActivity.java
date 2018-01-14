@@ -163,47 +163,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayInformationAboutRoom(Room room){
+        lastRoomId = room.getId();
+        Calendar rightNow = Calendar.getInstance();
+        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int currentMinutes = rightNow.get(Calendar.MINUTE);
+        int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
 
+        CalendarToStringConverter converter = new CalendarToStringConverter();
+        String day = converter.getDays().get(currentDay);
 
-            lastRoomId = room.getId();
-            Calendar rightNow = Calendar.getInstance();
-            int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-            int currentMinutes = rightNow.get(Calendar.MINUTE);
-            int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
+        indoorwayMapView.getSelection().selectObject(room.getId());
+        indoorwayMapView.getPosition().setPosition(currentPosition, true);
+        Log.e("myDebug","romId:" + room.getId());
+        Log.e("myDebug","currentHour:" + currentHour);
+        Log.e("myDebug","currentMinutes:" + currentMinutes);
+        Log.e("myDebug","day:" + day);
 
+        List<Lecture> lectures = database.getByRoomAndTime(room.getId(), currentHour, currentMinutes, day);
+        //List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
 
-            CalendarToStringConverter converter = new CalendarToStringConverter();
-            String day = converter.getDays().get(currentDay);
-
-            indoorwayMapView.getSelection().selectObject(room.getId());
-            indoorwayMapView.getPosition().setPosition(currentPosition, true);
-            Log.e("myDebug","romId:" + room.getId());
-            Log.e("myDebug","currentHour:" + currentHour);
-            Log.e("myDebug","currentMinutes:" + currentMinutes);
-            Log.e("myDebug","day:" + day);
-
-            //List<Lecture> lectures = database.getByRoomAndTime(roomid, currentHour, currentMinutes, day);
-            List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
-
-            tx = findViewById(R.id.tx);
-            sub = findViewById(R.id.sub);
-            text = findViewById(R.id.text);
-            //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-            Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
-            if (lectures.size() != 0)
+        tx = findViewById(R.id.tx);
+        sub = findViewById(R.id.sub);
+        text = findViewById(R.id.text);
+        //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+        Log.e("myDebug","number of results:" + lectures.size());
+        try {
+            if (lectures.size() != 0) {
                 tx.setText(lectures.get(0).getName());
-                sub.setText(lectures.get(0).getStartTimeHH() + ":"
-                        + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay());
+                String text_tmp = lectures.get(0).getStartTimeHH() + ":"
+                        + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
+                sub.setText(text_tmp);
                 text.setText(lectures.get(0).getDescription());
-            //tx.setText("tekst");
-            cardView = findViewById(R.id.card_view);
-            tx.setGravity(Gravity.CENTER);
+            }
+        }
+        catch (java.lang.IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        cardView = findViewById(R.id.card_view);
+        tx.setGravity(Gravity.CENTER);
 
-            animateCardInAndOut();
-
-
-
-
+        animateCardInAndOut();
     }
     private void animateCardInAndOut(){
         tx.setVisibility(View.VISIBLE);
