@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.widget.LoginButton;
 import com.indoorway.android.common.sdk.listeners.generic.Action1;
 import com.indoorway.android.common.sdk.model.Coordinates;
 import com.indoorway.android.common.sdk.model.IndoorwayMap;
@@ -48,9 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
     private Coordinates actualInoorwayPosition;
-    TextView tx;
+    TextView tx, sub, text;
     CardView cardView;
     String tex;
+    LoginButton fb;
 
     //Layout variables DO NOT CHANGE
     private DrawerLayout mDrawerLayout;
@@ -181,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
             List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
 
             tx = findViewById(R.id.tx);
+            sub = findViewById(R.id.sub);
+            text = findViewById(R.id.text);
             //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
             Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
             if (lectures.size() != 0)
@@ -196,7 +200,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void animateCardInAndOut(){
-        tx.setVisibility(View.VISIBLE) ;
+        tx.setVisibility(View.VISIBLE);
+        sub.setVisibility(View.VISIBLE);
+        text.setVisibility(View.VISIBLE);
         cardView.setVisibility(View.VISIBLE);
 
         Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
@@ -214,12 +220,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         tx.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        text.setVisibility(View.INVISIBLE);
                         cardView.setVisibility(View.INVISIBLE);
                     }
-                }, 750);
+                }, 450);
 
             }
-        }, 3000);
+        }, 6000);
     }
     private void initializeMap() {
         indoorwayMapView.load(BuildingInformations.Companion.getBuildingID(), BuildingInformations.Companion.getStartFloorID());
@@ -273,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+//                if(item.getItemId()==R.id.navToRoom){
                 Fragment newFragment;
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 newFragment = new Fragment();
@@ -280,6 +289,11 @@ public class MainActivity extends AppCompatActivity {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 setTitle("BLA");
+//                }
+//                else {
+//                    fb = findViewById(R.id.login_button);
+//                    fb.setVisibility(View.VISIBLE);
+//                }
 
                 return true;
             }
