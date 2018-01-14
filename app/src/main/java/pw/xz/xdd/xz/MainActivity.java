@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void animateCardInAndOut(){
-        tx.setVisibility(View.VISIBLE);
+        tx.setVisibility(View.VISIBLE) ;
         cardView.setVisibility(View.VISIBLE);
 
         Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
