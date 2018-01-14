@@ -102,8 +102,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         String[] projection = {
                 //Entry._ID,
                 Entry.NAME,
-                //Entry.START_TIME_HH,
-                //Entry.START_TIME_MM,
+                Entry.START_TIME_HH,
+                Entry.START_TIME_MM,
                 Entry.END_TIME_HH,
                 Entry.END_TIME_MM,
                 //Entry.DAY,
@@ -141,15 +141,15 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         while(cursor.moveToNext()) {
             //Commented out is already known
             String name = cursor.getString(cursor.getColumnIndexOrThrow(Entry.NAME));
-            //int start_time_hh = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_HH));
-            //int start_time_mm = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_MM));
+            int start_time_hh_new = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_HH));
+            int start_time_mm_new = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.START_TIME_MM));
             int end_time_hh = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.END_TIME_HH));
             int end_time_mm = cursor.getInt(cursor.getColumnIndexOrThrow(Entry.END_TIME_MM));
             //String day = cursor.getString(cursor.getColumnIndexOrThrow(Entry.DAY));
             //String room_id = cursor.getString(cursor.getColumnIndexOrThrow(Entry.ROOM_ID));
             String description = cursor.getString(cursor.getColumnIndexOrThrow(Entry.DESCRIPTION));
 
-            results.add(new Lecture(name, start_time_hh, start_time_mm, end_time_hh,
+            results.add(new Lecture(name, start_time_hh_new, start_time_mm_new, end_time_hh,
                     end_time_mm, day, room_id, description));
         }
         cursor.close();
