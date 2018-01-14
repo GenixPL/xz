@@ -12,15 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<com.facebook.login.widget.LoginButton-->
-            <!--android:id="@+id/login_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="120dp"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:visibility="invisible"-->
-            <!--/>-->
-
         <com.indoorway.android.map.sdk.view.IndoorwayMapView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,8 +24,8 @@
             android:visibility="invisible"
             android:layout_centerVertical="true"
             android:background="@color/white">
-
         </ListView>
+
         <ListView
             android:id="@+id/listView_lectures"
             android:layout_width="wrap_content"
@@ -42,7 +33,6 @@
             android:visibility="invisible"
             android:layout_centerVertical="true"
             android:background="@color/white">
-
         </ListView>
 
 
@@ -57,12 +47,12 @@
             card_view:cardBackgroundColor="@color/indoorway_map_indoor_background"
             card_view:cardCornerRadius="4dp"
             android:visibility="invisible"
-            android:elevation="5dp"
-            >
+            android:elevation="5dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:fontFamily="sans-serif"
                     android:layout_width="match_parent"
@@ -74,8 +64,7 @@
                     android:id="@+id/tx"
                     android:textSize="25dp"
                     android:textColor="@color/indoorway_map_text_color"
-                    android:visibility="visible"
-                    />
+                    android:visibility="visible"/>
 
                 <TextView
                     android:id="@+id/sub"
@@ -87,7 +76,7 @@
                     android:paddingTop="10dp"
                     android:textColor="#b2b9c4"
                     android:textSize="12sp"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
                 <TextView
                     android:fontFamily="sans-serif"
@@ -100,13 +89,9 @@
                     android:id="@+id/text"
                     android:textSize="17sp"
                     android:textColor="@color/indoorway_map_text_color"
-                    android:visibility="visible"
-                    />
+                    android:visibility="visible" />
             </RelativeLayout>
-
-
         </android.support.v7.widget.CardView>
-
     </RelativeLayout>
     
     <android.support.design.widget.NavigationView
