@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
     private ListView navListView;
-
+    private ListView  listView_lectures;
     //regarding tapping
     private String lastRoomId = "";
     private Boolean wasLastRoomInfoActivatedByProximitySensor=false;
@@ -303,8 +303,8 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         if ( lastRoomId!=null && lastRoomId.equals(result.get(0).getId())){
-                            if (!isRoomInfoVisible)
-                            animateOutInfoBar();
+                            if (isRoomInfoVisible)
+                                animateOutInfoBar();
                             toastMessage("czy to tutaj");
                             fillLecturesView(getLecturesForCurrentDatetime(RoomTools.Companion.getRoomByID(result.get(0).getId())));
                         }
@@ -370,20 +370,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillLecturesView(final List<Lecture> lectures ){
-        navListView = findViewById(R.id.listView_lectures);
+        listView_lectures = findViewById(R.id.listView_lectures);
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
         }
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
-        navListView.setAdapter(listAdapter);
+        listView_lectures.setAdapter(listAdapter);
 
 
         navListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        navListView.setVisibility(View.INVISIBLE);
+                listView_lectures .setVisibility(View.INVISIBLE);
                         Lecture lecture = lectures.get(i);
                         Room room = RoomTools.Companion.getRoomByID(lecture.getRoomId());
                         indoorwayMapView.getNavigation().start(currentPosition, room.getId());
