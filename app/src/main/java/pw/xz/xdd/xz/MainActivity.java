@@ -2,6 +2,7 @@ package pw.xz.xdd.xz;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -101,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
                 cardView.startAnimation(a);
+                Handler h = new Handler();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cardView.setVisibility(View.INVISIBLE);
+                    }
+                }, 450);
             }
         });
 
