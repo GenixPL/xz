@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
                 if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
+                    toastMessage("BYLO!!!");
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
                 try {
