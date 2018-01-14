@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-
+        //PermmisionCheck permissionCheck = new PermmisionCheck(this);
 
         setContentView(R.layout.activity_main);
         SQLiteDb sql = new SQLiteDb();
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                     //to sie zaznacza jeszcze raz xd
                     toastMessage("BYLO!!!");
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
-                }
+                }else {
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         toastMessage("cos sie zjebalo :/");
                     }
-
+                }
 
 
             }
