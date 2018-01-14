@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
                 // handle state changes
-                toastMessage(indoorwayLocationSdkState.toString());
+                toastMessage(indoorwayLocationSdkState.toString()) ;
             }
         };
 
