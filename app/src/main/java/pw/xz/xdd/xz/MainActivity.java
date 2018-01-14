@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     //to sie zaznacza jeszcze raz xd
                     toastMessage("BYLO!!!");
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
-                }else {
+                }
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         toastMessage("cos sie zjebalo :/");
                     }
-                }
+
 
 
             }
