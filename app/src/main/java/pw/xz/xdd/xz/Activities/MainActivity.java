@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     } catch (Exception e) {
+                    if (isRoomInfoVisible)
                         animateOutInfoBar();
                     }
                 if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
