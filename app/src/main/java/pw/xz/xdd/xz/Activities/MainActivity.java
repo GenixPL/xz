@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
               animateOutInfoBar();
             }
         });
+        navListView = findViewById(R.id.navigation_listView);
 
     }
     private void animateOutInfoBar(){
@@ -332,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListView(){
-        navListView = findViewById(R.id.navigation_listView);
+
 
         String[] buttons = {"Navigate to 216", "Navigate to 213", "Navigate to 212", "Navigate to 211", "Navigate to 214", "Navigate to 103", "Navigate to 107"};
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, buttons);
