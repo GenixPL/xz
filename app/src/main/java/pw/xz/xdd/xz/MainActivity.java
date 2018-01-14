@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeMap();
         initListView();
+        cardView = findViewById(R.id.card_view);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         catch (java.lang.IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-        cardView = findViewById(R.id.card_view);
+
         tx.setGravity(Gravity.CENTER);
 
         animateCardInAndOut();
