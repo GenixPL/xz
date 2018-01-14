@@ -26,6 +26,7 @@ android {
 repositories {
     maven { url 'https://maven.google.com' }
     maven { url 'https://repository.indoorway.com/artifactory/android' }
+    mavenCentral()
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -47,5 +48,6 @@ dependencies {
     // optional if you don't want to use fragments
     compile 'com.indoorway.android:fragments:2.0.4'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
 }
