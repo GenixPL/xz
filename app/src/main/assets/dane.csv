@@ -1,12 +1,12 @@
 Analiza matematyczna,10,15,12,00,Friday,3-_M01M3r5w_c1a68,opis :) (214)
 Programowanie,11,15,13,00,Monday,jakiś id pokoju innego,opis2 :D
 przedmiot: Hello World,22,15,23,00,Saturday,3-_M01M3r5w_c1a68,opis3 :D (214)
-biola,23,22,13,33,Monday,3-_M01M3r5w_ca808,opis4 (216)
-biola,11,22,13,33,Monday,3-_M01M3r5w_fe9c8,opis5 (213)
-biola,11,22,13,33,Monday,3-_M01M3r5w_76b29,opis6 (212)
-biola,11,22,13,33,Monday,3-_M01M3r5w_36a38,opis7 (211)
-biola,23,59,13,33,Monday,3-_M01M3r5w_c0b28,opis8 (103)
-biola,11,22,13,33,Monday,3-_M01M3r5w_a18d9,opis9 (107)
+test216,23,22,13,33,Monday,3-_M01M3r5w_ca808,opis4 (216)
+test213,11,22,13,33,Monday,3-_M01M3r5w_fe9c8,opis5 (213)
+test212,11,22,13,33,Monday,3-_M01M3r5w_76b29,opis6 (212)
+test211,11,22,13,33,Monday,3-_M01M3r5w_36a38,opis7 (211)
+test103,23,59,13,33,Monday,3-_M01M3r5w_c0b28,opis8 (103)
+test107,11,22,13,33,Monday,3-_M01M3r5w_a18d9,opis9 (107)
 test_strefa_break,11,22,13,33,Monday,3-_M01M3r5w_bd8fb,opis4 (strefa_break)
 Introduction to Formal Logic and Set Theory,12,15,14,00,Monday,3-_M01M3r5w_fe9c8,213
 Introduction to Formal Logic and Set Theory,14,15,16,00,Monday,3-_M01M3r5w_fe9c8,213
@@ -21,3 +21,7 @@ Memorization Techniques,8,15,10,00,Wednesday,3-_M01M3r5w_fe9c8,213
 Number Theory,16,15,18,00,Wednesday,3-_M01M3r5w_fe9c8,213
 Differential Equations,15,15,17,00,Thursday,3-_M01M3r5w_fe9c8,213
 Introduction to Formal Logic and Set Theory,10,15,12,00,Friday,3-_M01M3r5w_fe9c8,213
+Topology,14,15,16,00,Tuesday,3-_M01M3r5w_ca808,216
+Case Studies 1,16,15,14,00,Tuesday,3-_M01M3r5w_ca808,216
+Case Studies 1,16,15,14,00,Tuesday,3-_M01M3r5w_ca808,216
+Case Studies,16,15,14,00,Sunday,3-_M01M3r5w_c0b28,103
