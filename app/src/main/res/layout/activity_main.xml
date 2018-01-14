@@ -12,35 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:layout_centerHorizontal="true"
-            android:visibility="invisible"
-            />-->
+        <!--<com.facebook.login.widget.LoginButton-->
+            <!--android:id="@+id/login_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="120dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:visibility="invisible"-->
+            <!--/>-->
 
         <com.indoorway.android.map.sdk.view.IndoorwayMapView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/mapView" />
-
-        <!--<TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:gravity="center"
-            android:id="@+id/tx"
-            android:textSize="25dp"
-            android:background="@drawable/bord"
-            android:textColor="@color/cardview_light_background"
-            android:textAllCaps="true"
-            android:visibility="invisible"
-            />-->
-            <!--android:background="@color/indoorway_map_default_room_outline"-->
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -56,44 +40,49 @@
             android:elevation="5dp"
             >
 
-            <TextView
-                android:fontFamily="sans-serif"
-                android:layout_width="match_parent"
-                android:textAlignment="viewStart"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/tx"
-                android:textSize="25dp"
-                android:textColor="@color/indoorway_map_text_color"
-                android:visibility="invisible"
-                />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:fontFamily="sans-serif"
+                    android:layout_width="match_parent"
+                    android:textAlignment="viewStart"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tx"
+                    android:textSize="25dp"
+                    android:textColor="@color/indoorway_map_text_color"
+                    android:visibility="invisible"
+                    />
 
-            <TextView
-                android:id="@+id/sub"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_marginTop="40dp"
-                android:paddingTop="10dp"
-                android:textColor="#b2b9c4"
-                android:textSize="12sp"
-                android:visibility="invisible" />
+                <TextView
+                    android:id="@+id/sub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_below="@+id/tx"
+                    android:paddingTop="10dp"
+                    android:textColor="#b2b9c4"
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
 
-            <TextView
-                android:fontFamily="sans-serif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="72dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:id="@+id/text"
-                android:textSize="17sp"
-                android:textColor="@color/indoorway_map_text_color"
-                android:visibility="invisible"
-                />
+                <TextView
+                    android:fontFamily="sans-serif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sub"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/text"
+                    android:textSize="17sp"
+                    android:textColor="@color/indoorway_map_text_color"
+                    android:visibility="invisible"
+                    />
+            </RelativeLayout>
 
 
         </android.support.v7.widget.CardView>
