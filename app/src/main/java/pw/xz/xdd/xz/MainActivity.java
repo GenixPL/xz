@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                 }
                 catch (Exception e){
-                    //nic sie nie stalo!!!
+                    toastMessage("cos sie zjebalo :/");
                 }
 
 
