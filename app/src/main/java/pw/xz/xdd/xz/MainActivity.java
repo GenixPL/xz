@@ -18,6 +18,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
+    private ListView navListView;
 
     //regarding tapping
     private String lastRoomId = "";
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         initializeMap();
-
+        initListView();
 
 
     }
@@ -291,6 +296,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initListView(){
+        navListView = findViewById(R.id.navigation_listView);
+
+        String[] buttons = {"Navigate to 216", "Navigate to 213", "Navigate to 212", "Navigate to 211", "Navigate to 214"};
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, buttons);
+        navListView.setAdapter(listAdapter);
+
+        navListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        navListView.setVisibility(View.INVISIBLE);
+
+                        if(i == 0){
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_ca808");
+
+                        } else if (i == 1) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_fe9c8");
+
+                        } else if (i == 2) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_76b29");
+
+                        } else if (i == 3) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_36a38");
+
+                        } else if (i == 4) {
+                            indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_c1a68");
+
+                        }
+                    }
+                }
+        );
+    }
+
     private void initNavigationDrawer(){
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
@@ -300,19 +339,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-//                if(item.getItemId()==R.id.navToRoom){
-                Fragment newFragment;
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                newFragment = new Fragment();
-                transaction.replace(R.id.nav_Fragment, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                setTitle("BLA");
-//                }
-//                else {
-//                    fb = findViewById(R.id.login_button);
-//                    fb.setVisibility(View.VISIBLE);
-//                }
+                if(item.getItemId() == R.id.navToRoom){
+                    navListView.setVisibility(View.VISIBLE);
+                    mDrawerLayout.closeDrawers();
+
+                }
 
                 return true;
             }
