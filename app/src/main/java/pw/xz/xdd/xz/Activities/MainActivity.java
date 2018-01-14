@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
                         wasLastRoomInfoActivatedByProximitySensor = false;
 
 
-                    } catch (Exception e) {
+                    } catch (IndexOutOfBoundsException e) {
                     if (isRoomInfoVisible)
                         animateOutInfoBar();
                     }
