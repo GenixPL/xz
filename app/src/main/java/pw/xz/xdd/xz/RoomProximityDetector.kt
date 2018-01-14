@@ -22,19 +22,6 @@ class RoomProximityDetector(
         var mapViewObject:IndoorwayMapView
 ){
 
-    init {
-        val listener = object : Action1<IndoorwayProximityEvent> {
-            override fun onAction(indoorwayProximityEvent: IndoorwayProximityEvent) {
-                onEnterZone(indoorwayProximityEvent);
-            }
-        }
-
-        IndoorwayLocationSdk.instance().dashboardProximityEvents().register(listener)
-       // IndoorwayLocationSdk.instance().dashboardProximityEvents().unregister(listener);
-
-    }
-
-
     fun getNearestRoom(position:Coordinates):Pair<Room?, Double> {
         var minDistance: Double = 999999.0;
         var nearestRoom: Room? = null;
@@ -47,13 +34,5 @@ class RoomProximityDetector(
         return Pair(nearestRoom,minDistance)
     }
 
-    fun getLectureCurrentlyTakingPlace(room:Room){
-        val today = java.util.Date()
-        val currentTime = java.sql.Time(today.time)
 
-
-    }
-    public fun onEnterZone(event: IndoorwayProximityEvent){
-
-    }
 }
