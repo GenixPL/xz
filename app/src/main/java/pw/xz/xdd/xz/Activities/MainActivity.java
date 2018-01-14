@@ -376,8 +376,9 @@ public class MainActivity extends AppCompatActivity {
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
+            toastMessage(l.getName());
         }
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, new String[]{"mama", "baba", "piesek"});
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
         listView_lectures.setAdapter(listAdapter);
 
 
@@ -385,11 +386,10 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listView_lectures .setVisibility(View.INVISIBLE);
+                        listView_lectures .setVisibility(View.INVISIBLE);
                         Lecture lecture = lectures.get(i);
                         Room room = RoomTools.Companion.getRoomByID(lecture.getRoomId());
                         indoorwayMapView.getNavigation().start(currentPosition, room.getId());
-                        //tempCoordinates = currentMap.objectWithId(room.getId()).getCenterPoint();
 
                     }
                 }

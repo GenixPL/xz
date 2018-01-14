@@ -12,6 +12,14 @@
         android:title="Connect with friends"
         android:icon="@mipmap/ic_people_black_24dp"/>
 
+    <item android:id="@+id/navToSettings"
+        android:title="Settings"
+        android:icon="@mipmap/ic_settings_black_24dp"/>
+
+    <item android:id="@+id/navToAccount"
+        android:title="Account"
+        android:icon="@mipmap/ic_perm_identity_black_24dp"/>
+
 
 
 </menu>
