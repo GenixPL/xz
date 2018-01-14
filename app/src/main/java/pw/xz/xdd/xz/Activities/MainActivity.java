@@ -1,7 +1,8 @@
-package pw.xz.xdd.xz;
+package pw.xz.xdd.xz.Activities;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.app.ActivityManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +43,17 @@ import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 import java.util.Calendar;
 import java.util.List;
 
+import pw.xz.xdd.xz.Other.BuildingInformations;
+import pw.xz.xdd.xz.Other.CalendarToStringConverter;
+import pw.xz.xdd.xz.Database.SQLiteDb;
+import pw.xz.xdd.xz.Database.SQLiteDbHelper;
+import pw.xz.xdd.xz.Other.InitApp;
+import pw.xz.xdd.xz.Other.Lecture;
+import pw.xz.xdd.xz.R;
+import pw.xz.xdd.xz.Other.Room;
+import pw.xz.xdd.xz.Other.RoomProximityDetector;
+import pw.xz.xdd.xz.Other.RoomTools;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -65,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
     private ListView navListView;
+    private Coordinates tempCoordinates;
 
     //regarding tapping
     private String lastRoomId = "";
@@ -308,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, buttons);
         navListView.setAdapter(listAdapter);
 
+
         navListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -316,20 +329,26 @@ public class MainActivity extends AppCompatActivity {
 
                         if(i == 0){
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_ca808");
+                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_ca808").getCenterPoint();
 
                         } else if (i == 1) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_fe9c8");
+                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_fe9c8").getCenterPoint();
 
                         } else if (i == 2) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_76b29");
+                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_76b29").getCenterPoint();
 
                         } else if (i == 3) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_36a38");
+                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_36a38").getCenterPoint();
 
                         } else if (i == 4) {
                             indoorwayMapView.getNavigation().start(currentPosition, "3-_M01M3r5w_c1a68");
+                            tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_c1a68").getCenterPoint();
 
                         }
+
                     }
                 }
         );
@@ -339,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         navView = findViewById(R.id.navView);
+        final Intent fbIntent = new Intent(this, Facebook.class);
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -347,6 +367,12 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getItemId() == R.id.navToRoom){
                     navListView.setVisibility(View.VISIBLE);
                     mDrawerLayout.closeDrawers();
+
+                } else if (item.getItemId() == R.id.navToFb){
+                    mDrawerLayout.closeDrawers();
+                    startActivity(fbIntent);
+
+                    finish();
 
                 }
 
@@ -357,7 +383,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -370,9 +395,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toastMessage(String message){
-        //Snackbar snackbar = Snackbar.make(findViewById(R.id.cor), message, 7000);
-        //snackbar.show();
-
         Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
         toast.show();
 

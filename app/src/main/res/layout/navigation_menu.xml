@@ -8,6 +8,10 @@
         android:icon="@mipmap/ic_directions_black_24dp"
         />
 
+    <item android:id="@+id/navToFb"
+        android:title="Connect with friends"
+        android:icon="@mipmap/ic_people_black_24dp"/>
+
 
 
 </menu>

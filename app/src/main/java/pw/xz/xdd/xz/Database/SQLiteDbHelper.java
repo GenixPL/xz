@@ -1,4 +1,4 @@
-package pw.xz.xdd.xz;
+package pw.xz.xdd.xz.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pw.xz.xdd.xz.Other.Lecture;
 
 /**
  * Created by Cezary Borowski on 2018-01-13.

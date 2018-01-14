@@ -1,4 +1,4 @@
-package pw.xz.xdd.xz;
+package pw.xz.xdd.xz.Other;
 
 import android.support.multidex.MultiDexApplication;
 

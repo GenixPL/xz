@@ -1,15 +1,10 @@
-package pw.xz.xdd.xz
+package pw.xz.xdd.xz.Other
 
-import com.indoorway.android.common.sdk.listeners.generic.Action1
 import com.indoorway.android.common.sdk.model.Coordinates
 import com.indoorway.android.common.sdk.model.IndoorwayMap
-import com.indoorway.android.common.sdk.model.proximity.IndoorwayNotificationInfo
-import com.indoorway.android.common.sdk.model.proximity.IndoorwayProximityEvent
-import com.indoorway.android.common.sdk.model.proximity.IndoorwayProximityEventShape
-import com.indoorway.android.location.sdk.IndoorwayLocationSdk
 import com.indoorway.android.map.sdk.view.IndoorwayMapView
-import java.sql.Time
-import java.util.*
+import pw.xz.xdd.xz.Other.BuildingInformations
+import pw.xz.xdd.xz.Other.Room
 
 
 /**
