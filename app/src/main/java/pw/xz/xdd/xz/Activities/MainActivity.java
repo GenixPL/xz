@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
 
                 } else if (item.getItemId() == R.id.navToFb){
-                    mDrawerLayout.closeDrawers();
+                    //mDrawerLayout.closeDrawers();
                     startActivity(fbIntent);
 
                     finish();
