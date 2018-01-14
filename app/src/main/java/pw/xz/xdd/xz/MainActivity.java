@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
             indoorwayMapView.getSelection().selectObject(room.getId());
             indoorwayMapView.getPosition().setPosition(currentPosition, true);
-            Log.e("myDebug","romId:" + roomid);
+            Log.e("myDebug","romId:" + room.getId());
             Log.e("myDebug","currentHour:" + currentHour);
             Log.e("myDebug","currentMinutes:" + currentMinutes);
             Log.e("myDebug","day:" + day);
