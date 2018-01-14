@@ -370,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillLecturesView(final List<Lecture> lectures ){
+        listView_lectures.setVisibility(View.VISIBLE);
         listView_lectures = findViewById(R.id.listView_lectures);
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
