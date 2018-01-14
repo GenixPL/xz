@@ -219,7 +219,17 @@ public class MainActivity extends AppCompatActivity {
     }
     private void animateCardInAndOut(){
         if (isRoomInfoVisible){
-            globalInfoBarHandler1.removeCallbacks(callback);
+            globalInfoBarHandler1.postDelayed(callback,0);
+            isRoomInfoVisible=false;
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    animateCardInAndOut();
+                }
+            },450);
+            return;
+
         }
         isRoomInfoVisible=true;
         tx.setVisibility(View.VISIBLE);
