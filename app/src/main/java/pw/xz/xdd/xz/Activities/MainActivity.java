@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
-            toastMessage(l.getName());
+
         }
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
         listView_lectures.setAdapter(listAdapter);
@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toastMessage(String message){
         Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
-       // toast.show();
+        toast.show();
 
     }
 
