@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         cardView.setVisibility(View.INVISIBLE);
                     }
-                }, 450);
+                }, 450) ;
             }
         });
 
