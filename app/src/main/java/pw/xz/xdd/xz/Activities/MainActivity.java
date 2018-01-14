@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 cardView.setVisibility(View.INVISIBLE);
             }
         }, 450) ;
+        isRoomInfoVisible=false;
     }
     private void initStatusListeners() {
         Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
@@ -243,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
                 tx.setGravity(Gravity.CENTER);
 
                 animateCardInAndOut();
+            }
+            else if (isRoomInfoVisible){
+                animateOutInfoBar();
             }
         }
 
