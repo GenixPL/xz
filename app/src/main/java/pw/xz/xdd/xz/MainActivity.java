@@ -220,18 +220,22 @@ public class MainActivity extends AppCompatActivity {
     }
     private void animateCardInAndOut(){
         if (isRoomInfoVisible){
+            toastMessage("no i jest widzialne elo");
             globalInfoBarHandler1.postDelayed(callback,0);
             isRoomInfoVisible=false;
             globalInfoBarHandler3 = new Handler();
             globalInfoBarHandler3.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    toastMessage("jedziemy z globalInfoBarHandler3");
                     animateCardInAndOut();
                 }
             },450);
+            toastMessage("tutaj sie konczy if");
             return;
 
         }
+        toastMessage("To jest juz normalna czesc");
         isRoomInfoVisible=true;
         tx.setVisibility(View.VISIBLE);
         sub.setVisibility(View.VISIBLE);
