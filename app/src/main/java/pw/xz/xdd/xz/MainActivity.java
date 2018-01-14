@@ -309,8 +309,8 @@ public class MainActivity extends AppCompatActivity {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                         wasLastRoomInfoActivatedByProximitySensor = false;
-                    } catch (Exception e) {
-                        //toastMessage("cos sie zjebalo :/");
+                    } catch (IndexOutOfBoundsException e) {
+                        toastMessage("cos sie zjebalo :/");
                     }
                 }
 
