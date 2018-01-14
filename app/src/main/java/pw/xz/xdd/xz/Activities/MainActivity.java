@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 cardView.setVisibility(View.INVISIBLE);
             }
         }, 450) ;
+        isRoomInfoVisible=false;
     }
     private void initStatusListeners() {
         Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
@@ -243,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
 
             animateCardInAndOut();
             }
+            else if (isRoomInfoVisible){
+                animateOutInfoBar();
+            }
         }
 
 
@@ -305,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     } catch (Exception e) {
+                    if (isRoomInfoVisible)
                         animateOutInfoBar();
                     }
                 if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
