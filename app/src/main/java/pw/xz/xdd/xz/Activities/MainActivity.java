@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                         Lecture lecture = lectures.get(i);
                         Room room = RoomTools.Companion.getRoomByID(lecture.getRoomId());
                         indoorwayMapView.getNavigation().start(currentPosition, room.getId());
-                        tempCoordinates = currentMap.objectWithId(room.getId()).getCenterPoint();
+                        //tempCoordinates = currentMap.objectWithId(room.getId()).getCenterPoint();
 
                     }
                 }
