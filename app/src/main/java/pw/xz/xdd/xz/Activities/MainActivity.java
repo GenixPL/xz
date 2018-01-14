@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public IndoorwayMapView indoorwayMapView;
     public IndoorwayMap currentMap;
-    public SQLiteDbHelper database;
+    public SQLiteDbHelper database ;
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
