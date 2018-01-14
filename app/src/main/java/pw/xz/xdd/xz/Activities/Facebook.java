@@ -18,8 +18,16 @@ public class Facebook extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finishActivity(0);
+    }
+
     public void goBackToMain_But(View view) {
         startActivity(new Intent(this, MainActivity.class));
-        finish();
+        finishActivity(0);
     }
+
 }
