@@ -10,6 +10,8 @@ import com.indoorway.android.common.sdk.IndoorwaySdk;
 
 public class InitApp extends MultiDexApplication {
 
+    public static int MY_PERMISSIONS_ACCESS_FINE_LOCATION;
+
     @Override
     public void onCreate() {
         super.onCreate();
