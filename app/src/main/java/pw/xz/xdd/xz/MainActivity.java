@@ -218,23 +218,22 @@ public class MainActivity extends AppCompatActivity {
         text = findViewById(R.id.text);
         //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
         Log.e("myDebug","number of results:" + lectures.size());
-        try {
+
             if (lectures.size() != 0) {
                 tx.setText(lectures.get(0).getName());
                 String text_tmp = lectures.get(0).getStartTimeHH() + ":"
                         + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
                 sub.setText(text_tmp);
                 text.setText(lectures.get(0).getDescription());
+
+                tx.setGravity(Gravity.CENTER);
+
+                animateCardInAndOut();
             }
         }
-        catch (java.lang.IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
 
-        tx.setGravity(Gravity.CENTER);
 
-        animateCardInAndOut();
-    }
+
     private void animateCardInAndOut(){
 
         isRoomInfoVisible=true;
@@ -283,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
+
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                         wasLastRoomInfoActivatedByProximitySensor = false;
 
