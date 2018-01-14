@@ -112,20 +112,22 @@ public class MainActivity extends AppCompatActivity {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
-                cardView.startAnimation(a);
-                Handler h = new Handler();
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cardView.setVisibility(View.INVISIBLE);
-                    }
-                }, 450) ;
+              animateOutInfoBar();
             }
         });
 
     }
-
+    private void animateOutInfoBar(){
+        Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
+        cardView.startAnimation(a);
+        Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cardView.setVisibility(View.INVISIBLE);
+            }
+        }, 450) ;
+    }
     private void initStatusListeners() {
         Action1<IndoorwayLocationSdkError> sdkErrListener = new Action1<IndoorwayLocationSdkError>() {
             @Override
@@ -297,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                         wasLastRoomInfoActivatedByProximitySensor = false;
+                        animateOutInfoBar();
 
                     } catch (Exception e) {
                         //toastMessage("cos sie zjebalo :/");
