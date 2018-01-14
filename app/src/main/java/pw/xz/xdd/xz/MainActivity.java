@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     public SQLiteDbHelper database;
     public MarkersLayer myLayer;
     private RoomProximityDetector detector;
-    private MapObjectSelectionManager mapObjectSelectionManager;
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             CalendarToStringConverter converter = new CalendarToStringConverter();
-            String day = converter.getDayFromCalendarEnum(currentDay);
+            String day = converter.getDays().get(currentDay);
 
             indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
             indoorwayMapView.getPosition().setPosition(currentPosition, true);
@@ -245,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
                 RoomTools.Companion.getAllRooms(currentMap); // read room data
                 detector = new RoomProximityDetector(currentMap, indoorwayMapView);
-                mapObjectSelectionManager = new MapObjectSelectionManager(currentMap,indoorwayMapView);
+
 
                 configureOnClick();
 
