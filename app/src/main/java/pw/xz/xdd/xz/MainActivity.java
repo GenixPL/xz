@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private RoomProximityDetector detector;
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
-    private String lastRoomId = "";
+
     private Coordinates actualInoorwayPosition;
     TextView tx, sub, text;
     CardView cardView;
@@ -58,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private NavigationView navView;
 
-
+    //regarding tapping
+    private String lastRoomId = "";
+    private Boolean wasLastRoomInfoActivatedByProximitySensor=false;
+    private Boolean isRoomInfoVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,8 +151,9 @@ public class MainActivity extends AppCompatActivity {
                     //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
                     isChangingFloor = true;
                 }
-                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE) {
-                    displayInformationAboutRoom(room);
+                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2() < MAX_DETECTION_RANGE && (!!wasLastRoomInfoActivatedByProximitySensor||!isRoomInfoVisible)) {
+                        wasLastRoomInfoActivatedByProximitySensor=true;
+                        displayInformationAboutRoom(room);
 
 
                 }
@@ -205,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         animateCardInAndOut();
     }
     private void animateCardInAndOut(){
+        isRoomInfoVisible=true;
         tx.setVisibility(View.VISIBLE);
         sub.setVisibility(View.VISIBLE);
         text.setVisibility(View.VISIBLE);
@@ -228,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                         sub.setVisibility(View.INVISIBLE);
                         text.setVisibility(View.INVISIBLE);
                         cardView.setVisibility(View.INVISIBLE);
+                        isRoomInfoVisible=false;
                     }
                 }, 450);
 
@@ -266,13 +272,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
-                if (lastRoomId!=null){ //jezeli cos bylo zaznaczone
+                if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }
                 try {
                     List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                     displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
+                    wasLastRoomInfoActivatedByProximitySensor=false;
                 }
                 catch (Exception e){
                     toastMessage("cos sie zjebalo :/");
