@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     //Do anulowania handlerow
     Handler globalInfoBarHandler1;
     Handler globalInfoBarHandler2;
-    Handler globalInfoBarHandler3;
     Runnable callback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAction(IndoorwayLocationSdkState indoorwayLocationSdkState) {
                 // handle state changes
-                toastMessage(indoorwayLocationSdkState.toString()) ;
+                toastMessage(indoorwayLocationSdkState.toString());
             }
         };
 
@@ -219,54 +218,17 @@ public class MainActivity extends AppCompatActivity {
         animateCardInAndOut();
     }
     private void animateCardInAndOut(){
-        if (isRoomInfoVisible){
-            toastMessage("no i jest widzialne elo");
-            globalInfoBarHandler1.postDelayed(callback,0);
-            isRoomInfoVisible=false;
-            globalInfoBarHandler3 = new Handler();
-            globalInfoBarHandler3.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    toastMessage("jedziemy z globalInfoBarHandler3");
-                    animateCardInAndOut();
-                }
-            },450);
-            toastMessage("tutaj sie konczy if");
-            return;
 
-        }
-        toastMessage("To jest juz normalna czesc");
         isRoomInfoVisible=true;
-        tx.setVisibility(View.VISIBLE);
-        sub.setVisibility(View.VISIBLE);
-        text.setVisibility(View.VISIBLE);
+
         cardView.setVisibility(View.VISIBLE);
 
         Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
         cardView.startAnimation(animateIn);
 
 
-        globalInfoBarHandler1 = new Handler();
-        callback = new Runnable() {
-            @Override
-            public void run() {
-                Animation animateOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
-                cardView.startAnimation(animateOut);
-                globalInfoBarHandler2 = new Handler();
-                globalInfoBarHandler2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tx.setVisibility(View.INVISIBLE);
-                        sub.setVisibility(View.INVISIBLE);
-                        text.setVisibility(View.INVISIBLE);
-                        cardView.setVisibility(View.INVISIBLE);
-                        isRoomInfoVisible=false;
-                    }
-                }, 450);
 
-            }
-        };
-        globalInfoBarHandler1.postDelayed(callback, 6000);
+
     }
     private void initializeMap() {
         indoorwayMapView.load(BuildingInformations.Companion.getBuildingID(), BuildingInformations.Companion.getStartFloorID());
@@ -302,14 +264,14 @@ public class MainActivity extends AppCompatActivity {
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
                 if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
                     //to sie zaznacza jeszcze raz xd
-                   // toastMessage("BYLO!!!");
+                    toastMessage("BYLO!!!");
                     indoorwayMapView.getSelection().selectObject(lastRoomId);
                 }else {
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
                         displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
                         wasLastRoomInfoActivatedByProximitySensor = false;
-                    } catch (IndexOutOfBoundsException e) {
+                    } catch (Exception e) {
                         toastMessage("cos sie zjebalo :/");
                     }
                 }
