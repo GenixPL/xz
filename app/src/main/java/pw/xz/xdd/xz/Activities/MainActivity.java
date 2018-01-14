@@ -40,6 +40,7 @@ import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -360,6 +361,31 @@ public class MainActivity extends AppCompatActivity {
                             tempCoordinates = currentMap.objectWithId("3-_M01M3r5w_c1a68").getCenterPoint();
 
                         }
+
+                    }
+                }
+        );
+    }
+
+    private void fillLecturesView(final List<Lecture> lectures ){
+        navListView = findViewById(R.id.listView_lectures);
+        List<String> lectureNames = new ArrayList<String>();
+        for (Lecture l:lectures){
+            lectureNames.add(l.getName());
+        }
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
+        navListView.setAdapter(listAdapter);
+
+
+        navListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        navListView.setVisibility(View.INVISIBLE);
+                        Lecture lecture = lectures.get(i);
+                        Room room = RoomTools.Companion.getRoomByID(lecture.getRoomId());
+                        indoorwayMapView.getNavigation().start(currentPosition, room.getId());
+                        tempCoordinates = currentMap.objectWithId(room.getId()).getCenterPoint();
 
                     }
                 }

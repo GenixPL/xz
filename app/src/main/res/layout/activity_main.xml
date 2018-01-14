@@ -35,6 +35,16 @@
             android:background="@color/white">
 
         </ListView>
+        <ListView
+            android:id="@+id/listView_lectures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"
+            android:background="@color/white">
+
+        </ListView>
+
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
