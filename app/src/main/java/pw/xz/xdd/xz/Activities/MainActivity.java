@@ -370,17 +370,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillLecturesView(final List<Lecture> lectures ){
-        listView_lectures.setVisibility(View.VISIBLE);
+
         listView_lectures = findViewById(R.id.listView_lectures);
+        listView_lectures.setVisibility(View.VISIBLE);
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
         }
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, new String[]{"mama", "baba", "piesek"});
         listView_lectures.setAdapter(listAdapter);
 
 
-        navListView.setOnItemClickListener(
+        listView_lectures.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
