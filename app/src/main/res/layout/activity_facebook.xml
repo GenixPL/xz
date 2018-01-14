@@ -6,4 +6,20 @@
     android:layout_height="match_parent"
     tools:context="pw.xz.xdd.xz.Activities.Facebook">
 
+    <ImageButton
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:onClick="goBackToMain_But"
+        android:src="@mipmap/ic_arrow_back_black_24dp"/>
 </android.support.constraint.ConstraintLayout>
