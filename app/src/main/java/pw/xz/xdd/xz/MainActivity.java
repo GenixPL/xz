@@ -177,6 +177,10 @@ public class MainActivity extends AppCompatActivity {
 
             indoorwayMapView.getSelection().selectObject(room.getId());
             indoorwayMapView.getPosition().setPosition(currentPosition, true);
+            Log.e("myDebug","romId:" + roomid);
+            Log.e("myDebug","currentHour:" + currentHour);
+            Log.e("myDebug","currentMinutes:" + currentMinutes);
+            Log.e("myDebug","day:" + day);
 
             //List<Lecture> lectures = database.getByRoomAndTime(roomid, currentHour, currentMinutes, day);
             List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
@@ -188,6 +192,9 @@ public class MainActivity extends AppCompatActivity {
             Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
             if (lectures.size() != 0)
                 tx.setText(lectures.get(0).getName());
+                sub.setText(lectures.get(0).getStartTimeHH() + ":"
+                        + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay());
+                text.setText(lectures.get(0).getDescription());
             //tx.setText("tekst");
             cardView = findViewById(R.id.card_view);
             tx.setGravity(Gravity.CENTER);
