@@ -319,6 +319,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IndexOutOfBoundsException e) {
                     if (isRoomInfoVisible)
                         animateOutInfoBar();
+                    listView_lectures.setVisibility(View.INVISIBLE);
+                    navListView.setVisibility(View.INVISIBLE);
                     }
 
                 }
