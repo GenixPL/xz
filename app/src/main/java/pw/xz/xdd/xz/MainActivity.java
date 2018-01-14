@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private double MAX_DETECTION_RANGE = 12;
     private String lastRoomId = "";
     private Coordinates actualInoorwayPosition;
-    TextView tx;
+    TextView tx, sub, text;
     CardView cardView;
     String tex;
 
@@ -177,16 +177,23 @@ public class MainActivity extends AppCompatActivity {
                             20,20, "Saturday");
 
                     tx = findViewById(R.id.tx);
+                    text = findViewById(R.id.text);
+                    sub = findViewById(R.id.sub);
                     //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
                     Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
                     if (lectures.size() != 0)
                         tx.setText(lectures.get(0).getName());
+                        sub.setText(lectures.get(0).getStartTimeHH()+":"+lectures.get(0).getStartTimeMM()+ ", "+ lectures.get(0).getDay());
+                        text.setText("Bardzo ważny przedmiot mówiący, tuturueruaudsarusuardusarudsuarudsuardusdudrusaurdusar" + " " + lectures.get(0).getDescription());
                     //tx.setText("tekst");
                     cardView = findViewById(R.id.card_view);
+
                     tx.setGravity(Gravity.CENTER);
 
 
                     tx.setVisibility(View.VISIBLE);
+                    sub.setVisibility(View.VISIBLE);
+                    text.setVisibility(View.VISIBLE);
                     cardView.setVisibility(View.VISIBLE);
 
                     Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
@@ -205,11 +212,13 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     tx.setVisibility(View.INVISIBLE);
                                     cardView.setVisibility(View.INVISIBLE);
+                                    sub.setVisibility(View.INVISIBLE);
+                                    text.setVisibility(View.INVISIBLE);
                                 }
-                            }, 750);
+                            }, 450);
 
                         }
-                    }, 3000);
+                    }, 6000);
 
 
                 }
