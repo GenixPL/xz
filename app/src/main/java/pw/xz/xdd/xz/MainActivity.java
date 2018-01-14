@@ -1,11 +1,8 @@
 package pw.xz.xdd.xz;
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -35,11 +32,6 @@ import com.indoorway.android.location.sdk.model.IndoorwayLocationSdkState;
 import com.indoorway.android.map.sdk.view.IndoorwayMapView;
 import com.indoorway.android.map.sdk.view.drawable.layers.MarkersLayer;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,15 +67,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
-        SQLiteDb sql = new SQLiteDb(getApplicationContext());
+        SQLiteDb sql = new SQLiteDb();
         sql.sqliteDbUpdateOnce(getApplicationContext());
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
 
         initializeMap();
-        displayUser();
+        configureOnClick();
+        setupClientPositionListener();
         initStatusListeners();
         initNavigationDrawer();
+
+        RoomTools.Companion.getAllRooms(currentMap); // read room data
+        detector = new RoomProximityDetector(currentMap, indoorwayMapView);
+
 
     }
 
@@ -132,87 +129,17 @@ public class MainActivity extends AppCompatActivity {
                 .register(sdkStateListener);
     }
 
-    private void displayUser(){
+    private void setupClientPositionListener(){
         Action1<IndoorwayPosition> positionListener = new Action1<IndoorwayPosition>() {
             @Override
 
             public void onAction(IndoorwayPosition position) {
-                // store last position as a field
+
                 currentPosition = position;
                 actualInoorwayPosition = position.getCoordinates();
-                // react for position changes...
 
-                // If you are using map view, you can pass position.
-                // Second argument indicates if you want to auto reload map on position change
-                // for eg. after going to different building level.
-                boolean isChangingFloor= false;
-                String roomid="";
-                Room room;
-                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(position.getCoordinates());
-                try {
+                displayInformationAboutNearbyRoom();
 
-                    room = roomData.component1();
-                    roomid = room.getId();
-                }
-                catch(Exception e){
-                    //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
-                    isChangingFloor=true;
-                }
-                if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2()<MAX_DETECTION_RANGE) {
-                    lastRoomId = roomid;
-                    Calendar rightNow = Calendar.getInstance();
-                    int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-                    int currentMinutes = rightNow.get(Calendar.MINUTE);
-                    int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
-
-
-                    CalendarToStringConverter converter = new CalendarToStringConverter();
-                    String day = converter.getDayFromCalendarEnum(currentDay);
-
-                    indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
-                    indoorwayMapView.getPosition().setPosition(currentPosition, true);
-
-                    //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
-                    List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
-                            20,20, "Saturday");
-
-                    tx = findViewById(R.id.tx);
-                    //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
-                    Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
-                    if (lectures.size() != 0)
-                        tx.setText(lectures.get(0).getName());
-                    //tx.setText("tekst");
-                    cardView = findViewById(R.id.card_view);
-                    tx.setGravity(Gravity.CENTER);
-
-
-                    tx.setVisibility(View.VISIBLE);
-                    cardView.setVisibility(View.VISIBLE);
-
-                    Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
-                    cardView.startAnimation(animateIn);
-
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Animation animateOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
-                            cardView.startAnimation(animateOut);
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tx.setVisibility(View.INVISIBLE);
-                                    cardView.setVisibility(View.INVISIBLE);
-                                }
-                            }, 750);
-
-                        }
-                    }, 3000);
-
-
-                }
 
             }
         };
@@ -223,10 +150,97 @@ public class MainActivity extends AppCompatActivity {
                 .register(positionListener);
     }
 
+    private void displayInformationAboutNearbyRoom(){
+        boolean isChangingFloor= false;
+        String roomid="";
+        Room room;
+        kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualInoorwayPosition);
+        try {
 
+            room = roomData.component1();
+            roomid = room.getId();
+        }
+        catch(Exception e){
+            //ustalone eksperymentlanie, ze podczas zmiany pietra cos sie psuje
+            isChangingFloor=true;
+        }
+        if (!roomid.equals(lastRoomId) && !isChangingFloor && roomData.component2()<MAX_DETECTION_RANGE) {
+            lastRoomId = roomid;
+            Calendar rightNow = Calendar.getInstance();
+            int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+            int currentMinutes = rightNow.get(Calendar.MINUTE);
+            int currentDay = rightNow.get(Calendar.DAY_OF_WEEK);
+
+
+            CalendarToStringConverter converter = new CalendarToStringConverter();
+            String day = converter.getDayFromCalendarEnum(currentDay);
+
+            indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
+            indoorwayMapView.getPosition().setPosition(currentPosition, true);
+
+            //List<Lecture> lectures = database.getByRoomAndTime(room.getId(),currentHour,currentMinutes, day);
+            List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68",
+                    20,20, "Saturday");
+
+            tx = findViewById(R.id.tx);
+            //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
+            Log.e("myDebug","number of results:" + Integer.toString(lectures.size()));
+            if (lectures.size() != 0)
+                tx.setText(lectures.get(0).getName());
+            //tx.setText("tekst");
+            cardView = findViewById(R.id.card_view);
+            tx.setGravity(Gravity.CENTER);
+
+            animateCardInAndOut();
+
+
+
+        }
+    }
+    private void animateCardInAndOut(){
+        tx.setVisibility(View.VISIBLE);
+        cardView.setVisibility(View.VISIBLE);
+
+        Animation animateIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
+        cardView.startAnimation(animateIn);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animateOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_out);
+                cardView.startAnimation(animateOut);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tx.setVisibility(View.INVISIBLE);
+                        cardView.setVisibility(View.INVISIBLE);
+                    }
+                }, 750);
+
+            }
+        }, 3000);
+    }
     private void initializeMap() {
-        indoorwayMapView.load("CScrSxCVhQg", "3-_M01M3r5w");
+        indoorwayMapView.load(BuildingInformations.Companion.getBuildingID(), BuildingInformations.Companion.getStartFloorID());
 
+
+
+        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
+            @Override
+            public void onAction(IndoorwayMap indoorwayMap) {
+                currentMap = indoorwayMap;
+
+
+
+                myLayer = indoorwayMapView.getMarker().addLayer(0);
+            }
+        });
+
+    }
+    private void configureOnClick(){
         indoorwayMapView.getTouch().setOnClickListener(new Action1<Coordinates>() {
             @Override
             public void onAction(Coordinates coordinates) {
@@ -251,19 +265,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        indoorwayMapView.setOnMapLoadCompletedListener(new Action1<IndoorwayMap>() {
-            @Override
-            public void onAction(IndoorwayMap indoorwayMap) {
-                currentMap = indoorwayMap;
-
-                detector = new RoomProximityDetector(indoorwayMap, indoorwayMapView);
-                detector.getAllRooms();
-
-                myLayer = indoorwayMapView.getMarker().addLayer(0);
-            }
-        });
-
     }
 
     private void initNavigationDrawer(){

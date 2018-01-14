@@ -21,7 +21,6 @@ class RoomProximityDetector(
         var map:IndoorwayMap,
         var mapViewObject:IndoorwayMapView
 ){
-    public var roomsList:MutableList<Room> = mutableListOf()
 
     init {
         val listener = object : Action1<IndoorwayProximityEvent> {
@@ -34,32 +33,12 @@ class RoomProximityDetector(
        // IndoorwayLocationSdk.instance().dashboardProximityEvents().unregister(listener);
 
     }
-    fun getAllRooms(){
-        roomsList.clear()
-        for (mapObject in map.objects ){
-            var isAuditory = false
-            var isRoom = true
-            var shouldAdd=false
-            //tutaj sa dirty hacki bo pokoje nie maja tagow??
-            if (mapObject.name!!.toLowerCase().contains("room")){
-                shouldAdd = true
-            }
-            else if (mapObject.name!!.toLowerCase().isNumber()){
-                isAuditory=true
-                shouldAdd=true
-            }
 
-            if (shouldAdd) {
-                var thisRoom = Room(mapObject.name!!.toLowerCase().replace("room ", ""), mapObject.id, mapObject.centerPoint, isAuditory);
-                roomsList.add(thisRoom)
-            }
-        }
-    }
 
     fun getNearestRoom(position:Coordinates):Pair<Room?, Double> {
         var minDistance: Double = 999999.0;
         var nearestRoom: Room? = null;
-        for (room in roomsList) {
+        for (room in BuildingInformations.rooms) {
             if (room.coordinatesCenter.getDistanceTo(position) < minDistance) {
                 minDistance = room.coordinatesCenter.getDistanceTo(position)
                 nearestRoom = room
