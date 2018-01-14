@@ -177,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
             indoorwayMapView.getSelection().selectObject(roomData.component1().getId());
             indoorwayMapView.getPosition().setPosition(currentPosition, true);
 
-            List<Lecture> lectures = database.getByRoomAndTime(roomid, currentHour, currentMinutes, day);
-            //List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
+            //List<Lecture> lectures = database.getByRoomAndTime(roomid, currentHour, currentMinutes, day);
+            List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
 
             tx = findViewById(R.id.tx);
             //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
