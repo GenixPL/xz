@@ -8,6 +8,8 @@ class BuildingInformations{
             var rooms:MutableList<Room> = mutableListOf()
             var buildingID:String="CScrSxCVhQg";
             var startFloorID:String="3-_M01M3r5w";
+
+
         }
 
 }

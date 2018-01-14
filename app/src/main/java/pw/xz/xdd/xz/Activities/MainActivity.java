@@ -50,6 +50,7 @@ import pw.xz.xdd.xz.Database.SQLiteDb;
 import pw.xz.xdd.xz.Database.SQLiteDbHelper;
 import pw.xz.xdd.xz.Other.InitApp;
 import pw.xz.xdd.xz.Other.Lecture;
+import pw.xz.xdd.xz.Other.User;
 import pw.xz.xdd.xz.R;
 import pw.xz.xdd.xz.Other.Room;
 import pw.xz.xdd.xz.Other.RoomProximityDetector;
@@ -87,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
     Handler globalInfoBarHandler1;
     Handler globalInfoBarHandler2;
     Runnable callback;
+
+
+    //exampleuser
+    User exampleUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         indoorwayMapView = findViewById(R.id.mapView);
 
 
+        exampleUser.setUserId(6);
+        exampleUser.setLectures(database.getByRoomAndTime("3-_M01M3r5w_fe9c8",12,12,"Wednesday"));
 
         initializeMap();
         initListView();
@@ -373,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
 
         listView_lectures = findViewById(R.id.listView_lectures);
         listView_lectures.setVisibility(View.VISIBLE);
+        Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
+        listView_lectures.startAnimation(a);
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
