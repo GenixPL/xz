@@ -15,13 +15,6 @@ public class Facebook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
 
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (Exception e){
 
-        }
-
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 }
