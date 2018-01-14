@@ -3,8 +3,6 @@ package pw.xz.xdd.xz.Activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.app.ActivityManager;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -66,11 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
 
-    private Coordinates actualInoorwayPosition;
+    private Coordinates actualIndoorwayPosition;
     TextView tx, sub, text;
     CardView cardView;
-    String tex;
-    LoginButton fb;
 
     //Layout variables DO NOT CHANGE
     private DrawerLayout mDrawerLayout;
@@ -83,10 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private Boolean wasLastRoomInfoActivatedByProximitySensor=false;
     private Boolean isRoomInfoVisible = false;
 
-    //Do anulowania handlerow
-    Handler globalInfoBarHandler1;
-    Handler globalInfoBarHandler2;
-    Runnable callback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(IndoorwayPosition position) {
 
                 currentPosition = position;
-                actualInoorwayPosition = position.getCoordinates();
+                actualIndoorwayPosition = position.getCoordinates();
                 boolean isChangingFloor = false;
                 String roomid = "";
 
-                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualInoorwayPosition);
+                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualIndoorwayPosition);
                 Room room = roomData.component1();
                 try {
                     roomid = room.getId();
