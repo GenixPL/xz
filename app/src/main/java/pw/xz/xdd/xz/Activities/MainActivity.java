@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
         }
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, new String[]{"mama", "baba", "piesek"});
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
         listView_lectures.setAdapter(listAdapter);
 
 
