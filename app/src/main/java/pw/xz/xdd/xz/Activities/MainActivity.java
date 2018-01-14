@@ -233,16 +233,15 @@ public class MainActivity extends AppCompatActivity {
         //tx.setText(room.getId() + "\n" + currentHour + ":" + currentMinutes + ", " + day);
         Log.e("myDebug","number of results:" + lectures.size());
 
-            if (lectures.size() != 0) {
-                tx.setText(lectures.get(0).getName());
-                String text_tmp = lectures.get(0).getStartTimeHH() + ":"
-                        + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
-                sub.setText(text_tmp);
-                text.setText(lectures.get(0).getDescription());
+        if (!lectures.isEmpty())
+        {
+            tx.setText(lectures.get(0).getName());
+            String text_tmp = lectures.get(0).getStartTimeHH() + ":"
+                    + lectures.get(0).getStartTimeMM() + ", " + lectures.get(0).getDay();
+            sub.setText(text_tmp);
+            text.setText(lectures.get(0).getDescription());
 
-                tx.setGravity(Gravity.CENTER);
-
-                animateCardInAndOut();
+            animateCardInAndOut();
             }
         }
 
