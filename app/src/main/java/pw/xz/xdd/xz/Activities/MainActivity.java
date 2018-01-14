@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         sql.sqliteDbUpdateOnce(getApplicationContext());
         database = new SQLiteDbHelper(getApplicationContext());
         indoorwayMapView = findViewById(R.id.mapView);
-
+        navListView = findViewById(R.id.navigation_listView);
+        listView_lectures = findViewById(R.id.listView_lectures);
         //exampleuser
         exampleUser = new User(6, database.getByRoomAndTime("3-_M01M3r5w_fe9c8",
                 12, "Wednesday") );
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
               animateOutInfoBar();
             }
         });
-        navListView = findViewById(R.id.navigation_listView);
+
 
     }
     private void animateOutInfoBar(){
@@ -376,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillLecturesView(final List<Lecture> lectures ){
 
-        listView_lectures = findViewById(R.id.listView_lectures);
+
         listView_lectures.setVisibility(View.VISIBLE);
         Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_in);
         listView_lectures.startAnimation(a);
