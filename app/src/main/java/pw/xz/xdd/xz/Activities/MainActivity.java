@@ -419,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
 
                 } else if (item.getItemId() == R.id.navToAccount){
-
+                        fillLecturesView(exampleUser.getLectures());
                     //USER
                 }
 
