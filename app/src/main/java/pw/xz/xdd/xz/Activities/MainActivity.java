@@ -3,8 +3,6 @@ package pw.xz.xdd.xz.Activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.app.ActivityManager;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -67,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
     private IndoorwayPosition currentPosition;
     private double MAX_DETECTION_RANGE = 12;
 
-    private Coordinates actualInoorwayPosition;
+    private Coordinates actualIndoorwayPosition;
     TextView tx, sub, text;
     CardView cardView;
-    String tex;
-    LoginButton fb;
 
     //Layout variables DO NOT CHANGE
     private DrawerLayout mDrawerLayout;
@@ -188,11 +183,11 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(IndoorwayPosition position) {
 
                 currentPosition = position;
-                actualInoorwayPosition = position.getCoordinates();
+                actualIndoorwayPosition = position.getCoordinates();
                 boolean isChangingFloor = false;
                 String roomid = "";
 
-                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualInoorwayPosition);
+                kotlin.Pair<Room, Double> roomData = detector.getNearestRoom(actualIndoorwayPosition);
                 Room room = roomData.component1();
                 try {
                     roomid = room.getId();
@@ -385,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> lectureNames = new ArrayList<String>();
         for (Lecture l:lectures){
             lectureNames.add(l.getName());
+            toastMessage(l.getName());
         }
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, lectureNames);
         listView_lectures.setAdapter(listAdapter);
@@ -394,11 +390,10 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listView_lectures .setVisibility(View.INVISIBLE);
+                        listView_lectures .setVisibility(View.INVISIBLE);
                         Lecture lecture = lectures.get(i);
                         Room room = RoomTools.Companion.getRoomByID(lecture.getRoomId());
                         indoorwayMapView.getNavigation().start(currentPosition, room.getId());
-                        //tempCoordinates = currentMap.objectWithId(room.getId()).getCenterPoint();
 
                     }
                 }
@@ -423,6 +418,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(fbIntent);
                     finish();
 
+                } else if (item.getItemId() == R.id.navToAccount){
+
+                    //USER
                 }
 
                 return true;

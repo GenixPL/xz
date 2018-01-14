@@ -1,7 +1,8 @@
-package pw.xz.xdd.xz
+package pw.xz.xdd.xz.Other
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import pw.xz.xdd.xz.R
 
 class UserItems : AppCompatActivity() {
 
