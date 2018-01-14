@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toastMessage(String message){
         Toast toast = Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG);
-        toast.show();
+       // toast.show();
 
     }
 
