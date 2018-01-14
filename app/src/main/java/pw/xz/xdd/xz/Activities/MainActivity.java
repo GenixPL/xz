@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                         if ( lastRoomId!=null && lastRoomId.equals(result.get(0).getId())){
                             if (isRoomInfoVisible)
                                 animateOutInfoBar();
-                            toastMessage("czy to tutaj");
+                            //toastMessage("czy to tutaj");
                             fillLecturesView(getLecturesForCurrentDatetime(RoomTools.Companion.getRoomByID(result.get(0).getId())));
                         }
                         else {
