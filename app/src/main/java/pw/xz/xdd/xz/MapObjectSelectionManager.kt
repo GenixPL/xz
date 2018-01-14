@@ -9,7 +9,8 @@ import com.indoorway.android.map.sdk.view.IndoorwayMapView
 class MapObjectSelectionManager(
     var map: IndoorwayMap,
     var mapViewObject: IndoorwayMapView
-    )//{
-   // var lastTapedObject
+    ){
+    var lastTappedObjectId:String=""
+    var
 
-   //     }
+        }

@@ -13,7 +13,8 @@ class CalendarToStringConverter {
             Calendar.WEDNESDAY to "Wednesday",
             Calendar.THURSDAY to "Thursday",
             Calendar.FRIDAY to "Friday",
-            Calendar.MONDAY to "Monday")
+            Calendar.SUNDAY to "Sunday",
+            Calendar.SATURDAY to "Saturday")
 
 
     fun getDayFromCalendarEnum(calendarDay: Int): String? {
