@@ -207,9 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 .onChange()
                 .register(positionListener);
     }
-
-    private void displayInformationAboutRoom(Room room){
-        lastRoomId = room.getId();
+    private List<Lecture> getLecturesForCurrentDatetime(Room room){
         Calendar rightNow = Calendar.getInstance();
         int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
         int currentMinutes = rightNow.get(Calendar.MINUTE);
@@ -226,6 +224,11 @@ public class MainActivity extends AppCompatActivity {
         Log.e("myDebug","day:" + day);
 
         List<Lecture> lectures = database.getByRoomAndTime(room.getId(), currentHour, currentMinutes, day);
+        return lectures
+    }
+    private void displayInformationAboutRoom(Room room){
+        lastRoomId = room.getId();
+        List<Lecture> lectures = getLecturesForCurrentDatetime(room);
         //List<Lecture> lectures = database.getByRoomAndTime("3-_M01M3r5w_c1a68", 20,20, "Saturday");
 
         tx = findViewById(R.id.tx);
@@ -296,15 +299,16 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //tutaj jest hack na to, zeby sie nie odznaczalo nic na tapniecie na cos
-                if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
-                    //to sie zaznacza jeszcze raz xd
-                    //toastMessage("BYLO!!!");
-                    indoorwayMapView.getSelection().selectObject(lastRoomId);
-                }
+
                     try {
                         List<IndoorwayObjectParameters> result = currentMap.objectsContainingCoordinates(coordinates);
-
-                        displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
+                        if ( lastRoomId!=null && lastRoomId.equals(result.get(0).getId())){
+                            animateOutInfoBar();
+                            fillLecturesView(getLecturesForCurrentDatetime(RoomTools.Companion.getRoomByID(result.get(0).getId())));
+                        }
+                        else {
+                            displayInformationAboutRoom(RoomTools.Companion.getRoomByID(result.get(0).getId()));
+                        }
                         wasLastRoomInfoActivatedByProximitySensor = false;
 
 
@@ -312,11 +316,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isRoomInfoVisible)
                         animateOutInfoBar();
                     }
-                if (lastRoomId!=null && !lastRoomId.equals("")){ //jezeli cos bylo zaznaczone
-                    //to sie zaznacza jeszcze raz xd
-                    //toastMessage("BYLO!!!");
-                    indoorwayMapView.getSelection().selectObject(lastRoomId);
-                }
+
                 }
 
 
